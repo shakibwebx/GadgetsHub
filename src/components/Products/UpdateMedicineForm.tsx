@@ -51,7 +51,7 @@ const UpdateMedicineForm = () => {
     requiredPrescription: false,
     manufacturer: '',
     expiryDate: new Date(),
-    type: 'Tablet',
+    type: 'Smartwatch',
     categories: [],
     symptoms: [],
     discount: 0,
@@ -360,12 +360,12 @@ const UpdateMedicineForm = () => {
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Tablet">Tablet</SelectItem>
-              <SelectItem value="Syrup">Syrup</SelectItem>
-              <SelectItem value="Injection">Injection</SelectItem>
-              <SelectItem value="Capsule">Capsule</SelectItem>
-              <SelectItem value="Ointment">Ointment</SelectItem>
-              <SelectItem value="Drops">Drops</SelectItem>
+              <SelectItem value="Smartwatch">Smartwatch</SelectItem>
+              <SelectItem value="Smartphone">Smartphone</SelectItem>
+              <SelectItem value="Laptop">Laptop</SelectItem>
+              <SelectItem value="PC">PC</SelectItem>
+              <SelectItem value="Airbuds">Airbuds</SelectItem>
+              <SelectItem value="Camera">Camera</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -433,15 +433,15 @@ const UpdateMedicineForm = () => {
           className="w-full rounded border px-3 py-2"
         >
           {[
-            'Pain Relief',
-            'Antibiotic',
-            'Antiviral',
-            'Antifungal',
-            'Allergy',
-            'Digestive',
-            'Supplement',
-            'Chronic Disease',
-            'Emergency',
+            'Watch',
+            'Phone',
+            'Macbook',
+            'Computer',
+            'Headphones',
+            'DSLR',
+            'mouse',
+            'keyboard',
+            'monitor',
           ].map((category) => (
             <option key={category} value={category}>
               {category}

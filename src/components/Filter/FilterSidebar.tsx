@@ -142,24 +142,24 @@ export default function FilterSidebar() {
   };
 
   const categories: MedicineCategory[] = [
-    'Pain Relief',
-    'Antibiotic',
-    'Antiviral',
-    'Antifungal',
-    'Allergy',
-    'Digestive',
-    'Supplement',
-    'Chronic Disease',
-    'Emergency',
+    'Watch',
+    'Phone',
+    'Macbook',
+    'Computer',
+    'Headphones',
+    'DSLR',
+    'mouse',
+    'keyboard',
+    'monitor',
   ];
 
   const types: MedicineType[] = [
-    'Tablet',
-    'Syrup',
-    'Injection',
-    'Capsule',
-    'Ointment',
-    'Drops',
+    'Smartwatch',
+    'Smartphone',
+    'Laptop',
+    'PC',
+    'Airbuds',
+    'Camera',
   ];
 
   // extract unique tags and symptoms

@@ -11,6 +11,7 @@ module.exports = {
       'www.squarepharma.com.bd',
       'vineta-html.vercel.app',
       'i.ibb.co.com',
+      'via.placeholder.com',
     ],
     remotePatterns: [
       {

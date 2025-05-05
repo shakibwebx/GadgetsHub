@@ -25,7 +25,7 @@ export default function AllMedicines() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [allMedicines, setAllMedicines] = useState<IMedicine[]>([]);
+  const [allMedicines, setAllMedicines] = useState<IMedicine[]>([]); // Keeping the name as it is
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -53,40 +53,43 @@ export default function AllMedicines() {
     limit,
   };
 
-  const { data, isLoading, error, refetch } =
-    useGetAllMedicineQuery(queryParams);
+  const { data, isLoading, error, refetch } = useGetAllMedicineQuery(queryParams);
 
-  // reset page to 1 when filters change
+  // Reset page and medicines when filters change
   useEffect(() => {
     setPage(1);
-    setAllMedicines([]);
+    setAllMedicines([]); // Reset allMedicines
     setHasMore(true);
   }, [search, filters]);
 
-  // update medicine list when data changes
   useEffect(() => {
     if (data?.data?.data) {
-      if (page === 1) {
-        setAllMedicines(data.data.data);
-      } else {
-        setAllMedicines((prev) => [...prev, ...data.data.data]);
-      }
-
-      const total = data.data.data.meta?.total || 0;
-      const loadedCount =
-        page === 1
-          ? data.data.data.length
-          : allMedicines.length + data.data.data.length;
-      setHasMore(loadedCount < total);
+      const fetchedMedicines = data.data.data;
+      const total = data.data.meta?.total || 0;
+  
+      console.log('Fetched Medicines:', fetchedMedicines.length);
+      console.log('Current Page:', page);
+      console.log('Total from backend:', total);
+  
+      setAllMedicines((prev) => {
+        const newAllMedicines =
+          page === 1 ? fetchedMedicines : [...prev, ...fetchedMedicines];
+  
+        console.log('Has More:', newAllMedicines.length < total);
+        console.log('Total Loaded Medicines:', newAllMedicines.length);
+        setHasMore(newAllMedicines.length < total);
+  
+        return newAllMedicines;
+      });
+  
       setIsLoadingMore(false);
     }
-  }, [data, page, allMedicines.length]);
+  }, [data, page]);
 
-  // intersection observer for infinite scrolling
+  // Intersection observer for infinite scrolling
   const lastMedicineRef = useCallback(
     (node: HTMLDivElement) => {
       if (isLoading) return;
-
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
@@ -104,7 +107,7 @@ export default function AllMedicines() {
     [isLoading, hasMore, isLoadingMore]
   );
 
-  // reset filters
+  // Reset filters
   const handleResetAllFilters = () => {
     dispatch(
       setFilters({
@@ -123,8 +126,7 @@ export default function AllMedicines() {
   };
 
   if (error) {
-    const safeError =
-      error instanceof Error ? error : new Error('Unknown error');
+    const safeError = error instanceof Error ? error : new Error('Unknown error');
     return (
       <div className="py-10 text-center text-red-500">
         <p>Something went wrong: {safeError.message}</p>
@@ -147,14 +149,13 @@ export default function AllMedicines() {
 
   return (
     <div className="container mx-auto p-4">
-      {/* mbl drawer */}
+      {/* Mobile drawer */}
       <div className="mb-4 flex md:hidden">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
             <Button variant="outline" className="w-full">
               <Menu className="mr-2 h-4 w-4" />
-              Filters & Search{' '}
-              {activeFiltersCount > 0 && `(${activeFiltersCount})`}
+              Filters & Search {activeFiltersCount > 0 && `(${activeFiltersCount})`}
             </Button>
           </DrawerTrigger>
           <DrawerContent>
@@ -177,12 +178,12 @@ export default function AllMedicines() {
       </div>
 
       <div className="flex flex-col gap-4 md:flex-row">
-        {/* sidebar ==> lg  */}
+        {/* Sidebar for desktop */}
         <div className="hidden md:block md:w-1/4 lg:w-1/5">
           <FilterSidebar />
         </div>
 
-        {/* main  */}
+        {/* Main content */}
         <div className="w-full md:w-3/4 lg:w-4/5">
           <div className="mb-4">
             {search && (
@@ -195,10 +196,7 @@ export default function AllMedicines() {
 
             {activeFiltersCount > 0 && (
               <div className="mb-2 flex items-center justify-between rounded bg-gray-100 p-2 text-sm">
-                <p>
-                  {data?.data?.meta?.total || 0} results found with current
-                  filters
-                </p>
+                <p>{data?.data?.meta?.total || 0} results found with current filters</p>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -211,7 +209,7 @@ export default function AllMedicines() {
             )}
           </div>
 
-          {/* medicine  */}
+          {/* Medicine cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {isLoading && page === 1 ? (
               Array(4)
@@ -224,27 +222,19 @@ export default function AllMedicines() {
                 ))
             ) : allMedicines.length > 0 ? (
               allMedicines.map((medicine: IMedicine, index: number) => {
-                // for the last item, attach the ref for infinite scrolling
-                if (index === allMedicines.length - 1) {
-                  return (
-                    <div key={medicine._id || index} ref={lastMedicineRef}>
-                      <MedicineCard medicine={medicine} />
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div key={`${medicine._id}-${index}`} ref={lastMedicineRef}>
-                      <MedicineCard medicine={medicine} />
-                    </div>
-                  );
-                }
+                const isLast = index === allMedicines.length - 1;
+                return (
+                  <div
+                    key={medicine._id || index}
+                    ref={isLast ? lastMedicineRef : null}
+                  >
+                    <MedicineCard medicine={medicine} />
+                  </div>
+                );
               })
             ) : (
-              // no results found
               <div className="col-span-full flex flex-col items-center py-10 text-center text-gray-500">
-                <p className="mb-4">
-                  No medicines found matching your criteria.
-                </p>
+                <p className="mb-4">No medicines found matching your criteria.</p>
                 <Button variant="outline" onClick={handleResetAllFilters}>
                   Reset All Filters
                 </Button>
@@ -252,14 +242,14 @@ export default function AllMedicines() {
             )}
           </div>
 
-          {/* loading more indicator */}
+          {/* Loading more indicator */}
           {isLoadingMore && (
             <div className="mt-6 flex justify-center">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-900"></div>
             </div>
           )}
 
-          {/* end of results msg */}
+          {/* End of results message */}
           {!hasMore && allMedicines.length > 0 && (
             <div className="mt-6 text-center text-gray-500">
               <p>You have reached the end of results</p>

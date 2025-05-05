@@ -13,8 +13,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'MediSphere',
-  description: 'Your trusted online medicine shop',
+  title: 'GadgetsHub',
+  description: 'GadgetsHub - Your one-stop shop for all gadgets',
   icons: {
     icon: '/icon.png',
   },

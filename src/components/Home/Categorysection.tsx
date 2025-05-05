@@ -11,11 +11,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 
 const categories = [
-  { name: 'Smart Watch', icon: <Watch className="h-10 w-10 text-gray-800" /> },
-  { name: 'Smartphone', icon: <Smartphone className="h-10 w-10 text-gray-800" /> },
-  { name: 'Laptop', icon: <Laptop className="h-10 w-10 text-gray-800" /> },
-  { name: 'PC', icon: <Monitor className="h-10 w-10 text-gray-800" /> },
-  { name: 'Airbuds', icon: <Headphones className="h-10 w-10 text-gray-800" /> },
+  { name: 'Smart Watch', icon: <Watch className="h-10 w-10 text-[#F27F20]" /> },
+  { name: 'Smartphone', icon: <Smartphone className="h-10 w-10 text-[#F27F20]" /> },
+  { name: 'Laptop', icon: <Laptop className="h-10 w-10 text-[#F27F20]" /> },
+  { name: 'PC', icon: <Monitor className="h-10 w-10 text-[#F27F20]" /> },
+  { name: 'Airbuds', icon: <Headphones className="h-10 w-10 text-[#F27F20]" /> },
 ];
 
 const CategorySection = () => {

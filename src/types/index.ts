@@ -1,21 +1,21 @@
 export type MedicineType =
-  | 'Tablet'
-  | 'Syrup'
-  | 'Injection'
-  | 'Capsule'
-  | 'Ointment'
-  | 'Drops';
+  | 'Smartwatch'
+  | 'Smartphone'
+  | 'Laptop'
+  | 'PC'
+  | 'Airbuds'
+  | 'Camera'
 
 export type MedicineCategory =
-  | 'Pain Relief'
-  | 'Antibiotic'
-  | 'Antiviral'
-  | 'Antifungal'
-  | 'Allergy'
-  | 'Digestive'
-  | 'Supplement'
-  | 'Chronic Disease'
-  | 'Emergency';
+  | 'Watch'
+  | 'Phone'
+  | 'Macbook'
+  | 'Computer'
+  | 'Headphones'
+  | 'DSLR'
+  | 'mouse'
+  | 'keyboard'
+  | 'monitor';
 
 export interface IMedicine {
   _id?: string;

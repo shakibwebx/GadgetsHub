@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
 
-const CreateMedicineForm = () => {
+const CreateProductForm = () => {
   const navigate = useRouter();
   const [addMedicine, { isLoading }] = useAddMedicineMutation();
   const [formData, setFormData] = useState<IMedicine>({
@@ -31,7 +31,7 @@ const CreateMedicineForm = () => {
     requiredPrescription: false,
     manufacturer: '',
     expiryDate: new Date(),
-    type: 'Tablet',
+    type: 'Smartwatch',
     categories: [],
     symptoms: [],
     discount: 0,
@@ -79,7 +79,7 @@ const CreateMedicineForm = () => {
 
     try {
       // create FormData object to send file
-      const medicineData = new FormData();
+      const productData = new FormData();
 
       // add all text fields
       Object.keys(formData).forEach((key) => {
@@ -90,24 +90,24 @@ const CreateMedicineForm = () => {
         if (typedKey !== 'imageUrl' && value !== null && value !== undefined) {
           if (Array.isArray(value)) {
             value.forEach((item: string) => {
-              medicineData.append(`${typedKey}[]`, item);
+              productData.append(`${typedKey}[]`, item);
             });
           } else if (typedKey === 'expiryDate' && value instanceof Date) {
-            medicineData.append(typedKey, value.toISOString());
+            productData.append(typedKey, value.toISOString());
           } else {
-            medicineData.append(typedKey, String(value));
+            productData.append(typedKey, String(value));
           }
         }
       });
 
       // add image file if exists
       if (selectedImage) {
-        medicineData.append('image', selectedImage);
+        productData.append('image', selectedImage);
       }
 
-      const response = await addMedicine(medicineData).unwrap();
+      const response = await addMedicine(productData).unwrap();
       console.log('Success:', response);
-      toast.success('Medicine added successfully!');
+      toast.success('Product added successfully!');
 
       // reset form after successful submission
       setFormData({
@@ -119,7 +119,7 @@ const CreateMedicineForm = () => {
         requiredPrescription: false,
         manufacturer: '',
         expiryDate: new Date(),
-        type: 'Tablet',
+        type: 'Smartwatch',
         categories: [],
         symptoms: [],
         discount: 0,
@@ -149,7 +149,7 @@ const CreateMedicineForm = () => {
           message;
       }
 
-      toast.error(`Error adding Medicine: ${message}`);
+      toast.error(`Error adding product: ${message}`);
     }
   };
 
@@ -158,21 +158,20 @@ const CreateMedicineForm = () => {
       onSubmit={handleSubmit}
       className="mx-auto max-w-2xl space-y-4 rounded-lg bg-white p-6 shadow-md"
     >
-      <h2 className="mb-6 text-center text-2xl font-bold">Add New Medicine</h2>
-      {/* !important */}
+      <h2 className="mb-6 text-center text-2xl font-bold">Add New Product</h2>
       <div>
         <Button onClick={() => navigate.back()}>Back to Previous Page</Button>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="name">Medicine Name</Label>
+          <Label htmlFor="name">Product Name</Label>
           <Input
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Medicine 5000mm"
+            placeholder="Product 5000mm"
             required
             className="w-full"
           />
@@ -184,28 +183,10 @@ const CreateMedicineForm = () => {
             name="manufacturer"
             value={formData.manufacturer}
             onChange={handleChange}
-            placeholder="Pharma Inc."
+            placeholder="Tech Inc."
             required
             className="w-full"
           />
-        </div>
-
-        <div className="space-y-2">
-          <Label>Prescription Required</Label>
-          <select
-            name="requiredPrescription"
-            value={formData.requiredPrescription ? 'yes' : 'no'}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                requiredPrescription: e.target.value === 'yes',
-              })
-            }
-            className="w-full rounded border px-3 py-2"
-          >
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
         </div>
 
         <div className="space-y-2">
@@ -260,7 +241,7 @@ const CreateMedicineForm = () => {
             name="sku"
             value={formData.sku}
             onChange={handleChange}
-            placeholder="MED12345"
+            placeholder="PROD12345"
             className="w-full"
           />
         </div>
@@ -277,13 +258,13 @@ const CreateMedicineForm = () => {
                 tags: e.target.value.split(',').map((tag) => tag.trim()),
               })
             }
-            placeholder="painkiller, fever, adult"
+            placeholder="electronics, gadget, mobile"
             className="w-full"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="type">Medicine Type</Label>
+          <Label htmlFor="type">Product Type</Label>
           <Select
             value={formData.type}
             onValueChange={(value) =>
@@ -294,12 +275,12 @@ const CreateMedicineForm = () => {
               <SelectValue placeholder="Select type" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Tablet">Tablet</SelectItem>
-              <SelectItem value="Syrup">Syrup</SelectItem>
-              <SelectItem value="Injection">Injection</SelectItem>
-              <SelectItem value="Capsule">Capsule</SelectItem>
-              <SelectItem value="Ointment">Ointment</SelectItem>
-              <SelectItem value="Drops">Drops</SelectItem>
+              <SelectItem value="Smartwatch">Smartwatch</SelectItem>
+              <SelectItem value="Smartphone">Smartphone</SelectItem>
+              <SelectItem value="Laptop">Laptop</SelectItem>
+              <SelectItem value="PC">PC</SelectItem>
+              <SelectItem value="Airbuds">Airbuds</SelectItem>
+              <SelectItem value="Camera">Camera</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -326,7 +307,7 @@ const CreateMedicineForm = () => {
             name="supplier"
             value={formData.supplier || ''}
             onChange={handleChange}
-            placeholder="Global Pharma Supplier"
+            placeholder="Global Tech Supplier"
             className="w-full"
           />
         </div>
@@ -367,15 +348,15 @@ const CreateMedicineForm = () => {
           className="w-full rounded border px-3 py-2"
         >
           {[
-            'Pain Relief',
-            'Antibiotic',
-            'Antiviral',
-            'Antifungal',
-            'Allergy',
-            'Digestive',
-            'Supplement',
-            'Chronic Disease',
-            'Emergency',
+            'Watch',
+            'Phone',
+            'Macbook',
+            'Computer',
+            'Headphones',
+            'DSLR',
+            'mouse',
+            'keyboard',
+            'monitor',
           ].map((category) => (
             <option key={category} value={category}>
               {category}
@@ -385,7 +366,7 @@ const CreateMedicineForm = () => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="image">Medicine Image</Label>
+        <Label htmlFor="image">Product Image</Label>
         <Input
           id="image"
           name="image"
@@ -403,7 +384,7 @@ const CreateMedicineForm = () => {
           <div className="relative h-64 w-full overflow-hidden rounded-lg border">
             <Image
               src={previewUrl}
-              alt="Medicine Preview"
+              alt="Product Preview"
               fill
               style={{ objectFit: 'contain' }}
               className="p-2"
@@ -413,7 +394,7 @@ const CreateMedicineForm = () => {
       )}
 
       <div className="space-y-2 md:col-span-2">
-        <Label htmlFor="symptoms">Symptoms (comma-separated)</Label>
+        <Label htmlFor="symptoms">Features (comma-separated)</Label>
         <Input
           id="symptoms"
           name="symptoms"
@@ -424,7 +405,7 @@ const CreateMedicineForm = () => {
               symptoms: e.target.value.split(',').map((s) => s.trim()),
             })
           }
-          placeholder="headache, fever, sore throat"
+          placeholder="battery, fast-charging, waterproof"
           className="w-full"
         />
       </div>
@@ -437,7 +418,7 @@ const CreateMedicineForm = () => {
           name="description"
           value={formData.description}
           onChange={handleChange}
-          placeholder="Detailed description of the Medicine"
+          placeholder="Detailed description of the product"
           className="min-h-24 w-full"
         />
       </div>
@@ -451,10 +432,10 @@ const CreateMedicineForm = () => {
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Adding Medicine...
+              Adding Product...
             </>
           ) : (
-            'Add Medicine'
+            'Add Product'
           )}
         </Button>
       </div>
@@ -462,4 +443,4 @@ const CreateMedicineForm = () => {
   );
 };
 
-export default CreateMedicineForm;
+export default CreateProductForm;

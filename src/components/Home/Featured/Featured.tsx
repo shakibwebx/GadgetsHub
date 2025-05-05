@@ -17,6 +17,12 @@ const Featured = () => {
 
   const medicineData: IMedicine[] = data?.data?.data;
 
+  // Sort by createdAt descending and take latest 8
+  const featuredProducts = medicineData
+    ?.slice()
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+    .slice(0, 8);
+
   return (
     <section className="my-20 px-6 md:px-12">
       <div className="mb-12 text-center">
@@ -27,7 +33,7 @@ const Featured = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {medicineData?.map((product: IMedicine) => (
+        {featuredProducts?.map((product: IMedicine) => (
           <Card
             key={product._id}
             className="group transition-shadow hover:shadow-2xl border border-border h-[430px] flex flex-col justify-between overflow-hidden"

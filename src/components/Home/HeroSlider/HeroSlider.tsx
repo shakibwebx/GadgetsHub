@@ -20,7 +20,7 @@ const slides = [
     image:
       'https://i.ibb.co.com/FLsDg7T1/Chat-GPT-Image-May-5-2025-02-44-04-PM-removebg-preview.png',
     title: 'Stay Fit & Energized',
-    subtitle: 'Best Supplements for You',
+    subtitle: 'Best mouses for You',
   },
   {
     image:
