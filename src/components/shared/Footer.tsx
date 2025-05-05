@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import logo from '@/assets/logo-white.png';
+
 import Image from 'next/image';
 import { Facebook, Linkedin, Twitter } from 'lucide-react';
 
@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-2 gap-[40px] px-4 py-6 md:grid-cols-4 lg:py-8">
           <div className="col-span-2 md:col-span-1">
             <Link href="/">
-              <Image height={300} width={300} src={logo} alt="Logo" />
+              <Image src="/logo.webp" alt="Company Logo" width={100} height={100} />
             </Link>
             <p className="mt-4">
               Providing reliable healthcare essentials and personalized service

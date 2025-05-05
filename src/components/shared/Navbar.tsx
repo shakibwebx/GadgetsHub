@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import logo from '@/assets/logo.png';
+
 import {
   MenuIcon,
   ShoppingBag,
@@ -75,9 +75,11 @@ const Navbar = () => {
       </div>
 
       {/* main navbar */}
-      <div className="sticky top-[42px] z-50 flex items-center justify-between border border-gray-700 bg-[#1F1F1F] text-white px-5 py-4">
+      <div className="sticky top-[42px] z-1000 flex items-center  justify-between border border-gray-700 bg-[#1F1F1F] text-white px-5 py-4">
         <Link href="/">
-          <h2 className="text-[#F27F20] text-xl font-bold">GadgetsHub</h2>
+          <h2 className="text-[#F27F20] text-xl font-bold">
+          <Image src="/logo.webp" alt="Company Logo" width={100} height={100} />
+          </h2>
         </Link>
 
         <button className="block text-xl lg:hidden text-[#F27F20]" onClick={toggleMenu}>

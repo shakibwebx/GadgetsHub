@@ -16,7 +16,7 @@ export const metadata = {
   title: 'GadgetsHub',
   description: 'GadgetsHub - Your one-stop shop for all gadgets',
   icons: {
-    icon: '/icon.png',
+    icon: '/favicon.png',
   },
 };
 
