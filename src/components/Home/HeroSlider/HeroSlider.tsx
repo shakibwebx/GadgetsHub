@@ -34,6 +34,7 @@ const HeroSlider = () => {
   const progressCircle = useRef<SVGSVGElement | null>(null);
   const progressContent = useRef<HTMLSpanElement | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onAutoplayTimeLeft = (_swiper: any, time: number, progress: number) => {
     if (progressCircle.current) {
       progressCircle.current.style.setProperty(
