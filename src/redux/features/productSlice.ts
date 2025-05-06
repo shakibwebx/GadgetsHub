@@ -39,7 +39,7 @@ const initialState: IInitialState = {
 };
 
 const productSlice = createSlice({
-  name: 'medicines',
+  name: 'Medicines',
   initialState,
   reducers: {
     setSearch: (state, action: PayloadAction<string>) => {

@@ -28,7 +28,7 @@ const UpdateMedicineForm = () => {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
-  // fetch medicine
+  // fetch Medicine
   const {
     data: singleMedicineData,
     isLoading: isLoadingMedicine,
@@ -113,13 +113,13 @@ const UpdateMedicineForm = () => {
     e.preventDefault();
 
     if (!id) {
-      toast.error('No medicine ID found');
+      toast.error('No Medicine ID found');
       return;
     }
 
     try {
       // create FormData object to send file
-      const medicineData = new FormData();
+      const MedicineData = new FormData();
 
       // add all text fields
       Object.keys(formData).forEach((key) => {
@@ -130,24 +130,24 @@ const UpdateMedicineForm = () => {
         if (typedKey !== 'imageUrl' && value !== null && value !== undefined) {
           if (Array.isArray(value)) {
             value.forEach((item: string) => {
-              medicineData.append(`${typedKey}[]`, item);
+              MedicineData.append(`${typedKey}[]`, item);
             });
           } else if (typedKey === 'expiryDate' && value instanceof Date) {
-            medicineData.append(typedKey, value.toISOString());
+            MedicineData.append(typedKey, value.toISOString());
           } else {
-            medicineData.append(typedKey, String(value));
+            MedicineData.append(typedKey, String(value));
           }
         }
       });
 
       // add image file if exists
       if (selectedImage) {
-        medicineData.append('image', selectedImage);
+        MedicineData.append('image', selectedImage);
       }
 
       const response = await updateMedicine({
         id,
-        data: medicineData,
+        data: MedicineData,
       }).unwrap();
       console.log('Success:', response);
       toast.success('Medicine updated successfully!');
@@ -184,7 +184,7 @@ const UpdateMedicineForm = () => {
         <CardContent className="p-6">
           <div className="flex flex-col items-center justify-center space-y-4 py-12">
             <Loader2 className="text-primary h-8 w-8 animate-spin" />
-            <p>Loading medicine data...</p>
+            <p>Loading Medicine data...</p>
           </div>
         </CardContent>
       </Card>
@@ -208,7 +208,7 @@ const UpdateMedicineForm = () => {
               Error Loading Medicine
             </h2>
             <p>
-              {customError?.data?.message || 'Failed to load medicine data'}
+              {customError?.data?.message || 'Failed to load Medicine data'}
             </p>
             <Button onClick={() => router.back()}>Go Back</Button>
           </div>

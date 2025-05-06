@@ -13,8 +13,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: 'GadgetsHub',
-  description: 'GadgetsHub - Your one-stop shop for all gadgets',
+  title: 'Gadgets-Hub',
+  description: 'Gadgets-Hub - Your one-stop shop for all Medicine',
   icons: {
     icon: '/favicon.png',
   },

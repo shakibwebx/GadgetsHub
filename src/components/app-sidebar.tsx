@@ -13,57 +13,64 @@ import {
 } from '@/components/ui/sidebar';
 
 import {
-  BriefcaseMedical,
-  Home,
-  LayoutDashboard,
-  Pill,
-  Stethoscope,
+  Cpu,
+  ShoppingBag,
+  User2,
+  MonitorSmartphone,
+  Home as HomeIcon,
 } from 'lucide-react';
 
 const items = [
   {
     title: 'Dashboard',
     url: '/admin/',
-    icon: LayoutDashboard,
+    icon: MonitorSmartphone,
   },
   {
-    title: 'Manage Medicines',
+    title: 'Manage Medicine',
     url: '/admin/medicines',
-    icon: Pill,
+    icon: Cpu,
   },
   {
-    title: 'Manage Orders',
+    title: 'Orders',
     url: '/admin/orders',
-    icon: Stethoscope,
+    icon: ShoppingBag,
   },
   {
-    title: 'Manage Users',
+    title: 'Customers',
     url: '/admin/users',
-    icon: BriefcaseMedical,
+    icon: User2,
   },
   {
-    title: 'Goto Home',
+    title: 'Storefront',
     url: '/',
-    icon: Home,
+    icon: HomeIcon,
   },
 ];
 
 export function AppSidebar() {
   return (
-    <Sidebar className="h-screen">
+    <Sidebar className="h-screen bg-[#1E1216] text-white">
       <SidebarHeader>
-        <div className="p-4 text-lg font-bold">Admin Panel</div>
+        <div className="p-4 text-xl font-bold tracking-wide text-[#ff6e18]">
+          Gadget Hub Admin
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[#ff6e18]">
+            Admin Navigation
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <Link href={item.url} passHref>
-                    <SidebarMenuButton asChild>
-                      <div className="flex items-center gap-2">
+                    <SidebarMenuButton
+                      asChild
+                      className="hover:bg-[#ff6e18] hover:text-white text-[#1E1216] transition-all duration-200 rounded-md"
+                    >
+                      <div className="flex items-center gap-3 px-2 py-2">
                         <item.icon size={18} />
                         <span>{item.title}</span>
                       </div>
@@ -76,7 +83,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="p-4 text-sm">© Habibur Rahman</div>
+        <div className="p-4 text-sm text-gray-400">© Gadget Hub Store</div>
       </SidebarFooter>
     </Sidebar>
   );

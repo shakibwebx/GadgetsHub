@@ -4,6 +4,7 @@ import { useGetAllMedicineQuery } from '@/redux/api/productApi';
 import { IMedicine } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const DealProduct = () => {
   const { data } = useGetAllMedicineQuery(undefined, {
@@ -12,8 +13,6 @@ const DealProduct = () => {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
-
-  // const medicineData: IMedicine[] = data?.data?.data?.slice(0, 2); // Only 2 products
 
   const calculateTotalPrice = ({
     price,
@@ -30,7 +29,7 @@ const DealProduct = () => {
     };
   };
 
-  const medicineData: (IMedicine & { discountedPrice: number })[] =
+  const MedicineData: (IMedicine & { discountedPrice: number })[] =
     data?.data?.data
       ?.filter((item: IMedicine) => item.discount && item.discount > 0)
       .slice(0, 2)
@@ -47,19 +46,24 @@ const DealProduct = () => {
       });
 
   return (
-    <div className="my-14 px-6 md:px-12">
-      <h2 className="mb-8 text-3xl font-bold">Deal of the Day</h2>
+    <section className="my-20 px-6 md:px-12">
+      <div className="mb-12 text-center">
+        <h2 className="text-4xl font-bold tracking-tight text-[#1E1216]">Deal of the Day</h2>
+        <p className="text-muted-foreground text-sm mt-2">
+          Get exclusive discounts on select Medicine products!
+        </p>
+      </div>
 
       <div className="flex flex-col gap-8 md:flex-row">
-        {medicineData?.map((product: IMedicine) => (
+        {MedicineData?.map((product) => (
           <div
             key={product._id}
-            className="flex w-full flex-col overflow-hidden rounded-lg border shadow-md md:flex-row"
+            className="flex w-full flex-col overflow-hidden rounded-2xl border border-border shadow-md hover:shadow-xl transition-all duration-300 bg-background md:flex-row"
           >
-            {/* Product Image */}
-            <div className="flex h-72 w-full items-center justify-center bg-white md:w-1/2">
+            {/* Image */}
+            <div className="flex h-72 w-full items-center justify-center bg-muted md:w-1/2">
               <Image
-                src={product.imageUrl || '/src/assets/placeholder.png'}
+                src={product.imageUrl || '/placeholder-image.png'}
                 alt={product.name}
                 width={280}
                 height={280}
@@ -67,39 +71,35 @@ const DealProduct = () => {
               />
             </div>
 
-            {/* Product Details */}
+            {/* Details */}
             <div className="flex w-full flex-col justify-between p-6 md:w-1/2">
               <div>
-                <h3 className="mb-2 text-2xl font-semibold">{product.name}</h3>
-                <p className="mb-4 text-gray-600">{product.description}</p>
-                {/* <p className="mb-4 text-xl font-bold text-green-600">
-                  ${product.price}
-                </p> */}
-                <div className="flex gap-2 text-xl">
-                  <del className="text-gray-500">
-                    ${product.price.toFixed(2)}
-                  </del>
-                  <p className="mb-4 font-bold text-green-600">
-                    $
-                    {(
-                      product as IMedicine & { discountedPrice: number }
-                    ).discountedPrice.toFixed(2)}
-                  </p>
+                <h3 className="mb-2 text-xl font-semibold text-foreground line-clamp-2">
+                  {product.name}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                  {product.description}
+                </p>
+
+                <div className="flex items-center gap-3 text-lg mt-2">
+                  <del className="text-muted-foreground">${product.price.toFixed(2)}</del>
+                  <p className="font-bold text-green-500">${product.discountedPrice.toFixed(2)}</p>
+                  <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs">
+                    -{product.discount}%
+                  </span>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <Link
-                  href={`/shop/${product._id}`}
-                  className="rounded bg-gray-200 px-4 py-2 text-gray-800 transition hover:bg-gray-300"
-                >
-                  View Details
+
+              <div className="mt-6">
+                <Link href={`/shop/${product._id}`} className="w-full">
+                  <Button className="w-full text-sm py-2 font-medium">View Details</Button>
                 </Link>
               </div>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -12,13 +12,13 @@ const About = () => {
           <p className="mb-4 text-gray-700">
             At <span className="font-semibold text-teal-600">Medi Sphere</span>,
             we are committed to revolutionizing healthcare by making trusted
-            medicines and wellness products accessible to everyone, everywhere.
+            Medicines and wellness products accessible to everyone, everywhere.
           </p>
 
           <p className="mb-4 text-gray-700">
             Founded with a vision to simplify the way people manage their
             health, Medi Sphere offers a seamless online experience where users
-            can order genuine medicines, consult experts, and access reliable
+            can order genuine Medicines, consult experts, and access reliable
             healthcare content—all from the comfort of their home.
           </p>
 
@@ -33,7 +33,7 @@ const About = () => {
             Why Choose Us?
           </h2>
           <ul className="list-inside list-disc space-y-2 text-gray-700">
-            <li>Certified and authentic medicines</li>
+            <li>Certified and authentic Medicines</li>
             <li>Fast and secure delivery</li>
             <li>Expert pharmacist and doctor consultations</li>
             <li>Easy-to-use and mobile-friendly platform</li>

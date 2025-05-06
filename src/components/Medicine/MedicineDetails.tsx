@@ -33,7 +33,7 @@ import { toast } from 'react-toastify';
 export default function MedicineDetails({ id }: { id: string }) {
   //   const { id } = useParams<{ id: string }>()
   const { data, isLoading, error } = useGetSingleMedicineQuery(id as string);
-  const { data: medicines } = useGetAllMedicineQuery(undefined, {
+  const { data: Medicines } = useGetAllMedicineQuery(undefined, {
     pollingInterval: 30000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
@@ -42,7 +42,7 @@ export default function MedicineDetails({ id }: { id: string }) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
-  // console.log('this is medicine data from medicine details page', medicines);
+  // console.log('this is Medicine data from Medicine details page', Medicines);
 
   const incrementQuantity = () => {
     setQuantity(quantity + 1);
@@ -88,7 +88,7 @@ export default function MedicineDetails({ id }: { id: string }) {
               Error Loading Medicine Details
             </h3>
             <p className="text-muted-foreground">
-              We could not load the details for this medicine. Please try again.
+              We could not load the details for this Medicine. Please try again.
             </p>
             <Button asChild variant="outline">
               <Link href="/shop">Back to Shop</Link>
@@ -99,12 +99,12 @@ export default function MedicineDetails({ id }: { id: string }) {
     );
   }
 
-  const medicine: IMedicine = data.data;
-  // console.log('hi this is data from details page ', medicine);
+  const Medicine: IMedicine = data.data;
+  // console.log('hi this is data from details page ', Medicine);
 
   const handleAddToCart = () => {
-    dispatch(addToCart(medicine));
-    toast.success(`${medicine.name} added to cart!`, {
+    dispatch(addToCart(Medicine));
+    toast.success(`${Medicine.name} added to cart!`, {
       position: 'top-center',
       autoClose: 3000,
       hideProgressBar: false,
@@ -141,7 +141,7 @@ export default function MedicineDetails({ id }: { id: string }) {
               shop
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-foreground">{medicine.name}</span>
+            <span className="text-foreground">{Medicine.name}</span>
           </div>
         </div>
 
@@ -153,9 +153,9 @@ export default function MedicineDetails({ id }: { id: string }) {
                 width={500}
                 height={500}
                 src={
-                  medicine.imageUrl || '/placeholder.svg?height=500&width=500'
+                  Medicine.imageUrl || '/placeholder.svg?height=500&width=500'
                 }
-                alt={medicine.name || 'medicine image'}
+                alt={Medicine.name || 'Medicine image'}
                 className="h-[500px] w-full object-cover transition-transform hover:scale-105"
               />
             </div>
@@ -167,9 +167,9 @@ export default function MedicineDetails({ id }: { id: string }) {
                   width={100}
                   height={100}
                   src={
-                    medicine.imageUrl || '/placeholder.svg?height=100&width=100'
+                    Medicine.imageUrl || '/placeholder.svg?height=100&width=100'
                   }
-                  alt={medicine.name || 'medicine image'}
+                  alt={Medicine.name || 'Medicine image'}
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -182,10 +182,10 @@ export default function MedicineDetails({ id }: { id: string }) {
                     width={100}
                     height={100}
                     src={
-                      medicine.imageUrl ||
+                      Medicine.imageUrl ||
                       `/placeholder.svg?height=100&width=100&text=View ${i}`
                     }
-                    alt={`${medicine.name} view ${i}`}
+                    alt={`${Medicine.name} view ${i}`}
                     className="h-full w-full object-cover opacity-70"
                   />
                 </div>
@@ -198,7 +198,7 @@ export default function MedicineDetails({ id }: { id: string }) {
             <div>
               <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-                  {medicine.name}
+                  {Medicine.name}
                 </h1>
                 <div className="flex space-x-2">
                   <Button
@@ -220,18 +220,18 @@ export default function MedicineDetails({ id }: { id: string }) {
 
               <div className="mt-2 flex items-center">
                 <Badge variant="outline" className="mr-2 rounded-md">
-                  {medicine.categories[0]}
+                  {Medicine.categories[0]}
                 </Badge>
                 <Badge variant="outline" className="rounded-md">
-                  {Array.isArray(medicine.type)
-                    ? medicine.type.join(', ')
-                    : medicine.type}
+                  {Array.isArray(Medicine.type)
+                    ? Medicine.type.join(', ')
+                    : Medicine.type}
                 </Badge>
               </div>
 
               <div className="mt-4">
                 <p className="text-primary text-3xl font-bold">
-                  ${medicine.price?.toFixed(2) || medicine.price}
+                  ${Medicine.price?.toFixed(2) || Medicine.price}
                 </p>
                 <p className="text-muted-foreground text-sm">
                   Free shipping on orders over $100
@@ -242,29 +242,29 @@ export default function MedicineDetails({ id }: { id: string }) {
             <Separator />
 
             <div className="space-y-4">
-              <p className="text-muted-foreground">{medicine.description}</p>
+              <p className="text-muted-foreground">{Medicine.description}</p>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Manufacturer</p>
-                  <p>{medicine.manufacturer}</p>
+                  <p>{Medicine.manufacturer}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Discount</p>
-                  <p>{medicine.discount}%</p>
+                  <p>{Medicine.discount}%</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Type</p>
                   <p>
-                    {Array.isArray(medicine.type)
-                      ? medicine.type.join(', ')
-                      : medicine.type}
+                    {Array.isArray(Medicine.type)
+                      ? Medicine.type.join(', ')
+                      : Medicine.type}
                   </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Availability</p>
                   <p className="text-green-600">
-                    In Stock ({medicine.quantity} available)
+                    In Stock ({Medicine.quantity} available)
                   </p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default function MedicineDetails({ id }: { id: string }) {
                     size="icon"
                     className="h-8 w-8 rounded-l-none"
                     onClick={incrementQuantity}
-                    disabled={quantity >= medicine.quantity}
+                    disabled={quantity >= Medicine.quantity}
                   >
                     <Plus className="h-3 w-3" />
                   </Button>
@@ -363,19 +363,19 @@ export default function MedicineDetails({ id }: { id: string }) {
               <div className="space-y-4">
                 <h3 className="text-lg font-medium">Product Details</h3>
                 <p>
-                  {medicine.name} is a high-quality {medicine.type} medication
-                  manufactured by {medicine.manufacturer}.
-                  {medicine.requiredPrescription &&
+                  {Medicine.name} is a high-quality {Medicine.type} medication
+                  manufactured by {Medicine.manufacturer}.
+                  {Medicine.requiredPrescription &&
                     ' This medication requires a prescription from a licensed healthcare provider.'}
                 </p>
-                <p>{medicine.description}</p>
-                {medicine.symptoms && medicine.symptoms.length > 0 && (
+                <p>{Medicine.description}</p>
+                {Medicine.symptoms && Medicine.symptoms.length > 0 && (
                   <div className="mt-4">
                     <h4 className="text-md font-medium">
                       Common symptoms treated:
                     </h4>
                     <ul className="mt-2 list-disc pl-5">
-                      {medicine.symptoms.map((symptom, index) => (
+                      {Medicine.symptoms.map((symptom, index) => (
                         <li key={index}>{symptom}</li>
                       ))}
                     </ul>
@@ -392,53 +392,53 @@ export default function MedicineDetails({ id }: { id: string }) {
                   <div className="space-y-3">
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Manufacturer</span>
-                      <span>{medicine.manufacturer}</span>
+                      <span>{Medicine.manufacturer}</span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Type</span>
-                      <span>{medicine.type}</span>
+                      <span>{Medicine.type}</span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Categories</span>
                       <span>
-                        {Array.isArray(medicine.categories)
-                          ? medicine.categories.join(', ')
-                          : medicine.categories}
+                        {Array.isArray(Medicine.categories)
+                          ? Medicine.categories.join(', ')
+                          : Medicine.categories}
                       </span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">SKU</span>
-                      <span>{medicine.sku || 'N/A'}</span>
+                      <span>{Medicine.sku || 'N/A'}</span>
                     </div>
                   </div>
                   <div className="space-y-3">
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Expiry Date</span>
                       <span>
-                        {medicine.expiryDate
-                          ? new Date(medicine.expiryDate).toLocaleDateString()
+                        {Medicine.expiryDate
+                          ? new Date(Medicine.expiryDate).toLocaleDateString()
                           : 'N/A'}
                       </span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Prescription Required</span>
                       <span>
-                        {medicine.requiredPrescription ? 'Yes' : 'No'}
+                        {Medicine.requiredPrescription ? 'Yes' : 'No'}
                       </span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">In Stock</span>
                       <span
                         className={
-                          medicine.inStock ? 'text-green-600' : 'text-red-500'
+                          Medicine.inStock ? 'text-green-600' : 'text-red-500'
                         }
                       >
-                        {medicine.inStock ? 'Yes' : 'No'}
+                        {Medicine.inStock ? 'Yes' : 'No'}
                       </span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
                       <span className="font-medium">Quantity Available</span>
-                      <span>{medicine.quantity}</span>
+                      <span>{Medicine.quantity}</span>
                     </div>
                   </div>
                 </div>
@@ -460,10 +460,10 @@ export default function MedicineDetails({ id }: { id: string }) {
         <div className="mt-16">
           <h2 className="mb-6 text-2xl font-bold">You Might Also Like</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {medicines?.data?.data?.length > 0
-              ? medicines?.data?.data
+            {Medicines?.data?.data?.length > 0
+              ? Medicines?.data?.data
                   // showing half of the product
-                  .filter((item: IMedicine) => item._id !== medicine._id)
+                  .filter((item: IMedicine) => item._id !== Medicine._id)
                   .slice(0, 4)
                   .map((relatedMedicine: IMedicine, i: number) => (
                     <div key={i}>

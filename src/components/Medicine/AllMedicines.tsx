@@ -25,20 +25,22 @@ export default function AllMedicines() {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [allMedicines, setAllMedicines] = useState<IMedicine[]>([]); // Keeping the name as it is
+  const [allMedicines, setAllMedicines] = useState<IMedicine[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const lastMedicineElementRef = useRef<HTMLDivElement | null>(null);
 
   const dispatch = useAppDispatch();
-  const { search, filters } = useAppSelector((state) => state.medicines);
+  const { search, filters } = useAppSelector((state) => state.Medicines);
 
+  // Query parameters
   const queryParams = {
     searchTerm: search,
     tags: filters.tags,
     symptoms: filters.symptoms,
-    type: filters.type === '' ? undefined : filters.type,
+    type: filters.type || undefined,
     categories: filters.categories,
     minPrice: filters.price[0],
     maxPrice: filters.price[1],
@@ -53,61 +55,51 @@ export default function AllMedicines() {
     limit,
   };
 
-  const { data, isLoading, error, refetch } = useGetAllMedicineQuery(queryParams);
+  const { data, isLoading, error, refetch } = useGetAllMedicineQuery(queryParams, {
+    skip: !hasMore, // Prevent fetching if no more data
+  });
 
-  // Reset page and medicines when filters change
+  // Reset when filters/search change
   useEffect(() => {
     setPage(1);
-    setAllMedicines([]); // Reset allMedicines
+    setAllMedicines([]);
     setHasMore(true);
   }, [search, filters]);
 
+  // Add new data to the list
   useEffect(() => {
     if (data?.data?.data) {
       const fetchedMedicines = data.data.data;
       const total = data.data.meta?.total || 0;
-  
-      console.log('Fetched Medicines:', fetchedMedicines.length);
-      console.log('Current Page:', page);
-      console.log('Total from backend:', total);
-  
+
       setAllMedicines((prev) => {
-        const newAllMedicines =
-          page === 1 ? fetchedMedicines : [...prev, ...fetchedMedicines];
-  
-        console.log('Has More:', newAllMedicines.length < total);
-        console.log('Total Loaded Medicines:', newAllMedicines.length);
-        setHasMore(newAllMedicines.length < total);
-  
-        return newAllMedicines;
+        const newData = page === 1 ? fetchedMedicines : [...prev, ...fetchedMedicines];
+        setHasMore(newData.length < total);
+        return newData;
       });
-  
+
       setIsLoadingMore(false);
     }
   }, [data, page]);
 
-  // Intersection observer for infinite scrolling
+  // Infinite scroll observer
   const lastMedicineRef = useCallback(
     (node: HTMLDivElement) => {
-      if (isLoading) return;
+      if (isLoading || isLoadingMore) return;
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+        if (entries[0].isIntersecting && hasMore) {
           setIsLoadingMore(true);
-          setPage((prevPage) => prevPage + 1);
+          setPage((prev) => prev + 1);
         }
       });
 
-      if (node) {
-        observer.current.observe(node);
-        lastMedicineElementRef.current = node;
-      }
+      if (node) observer.current.observe(node);
     },
     [isLoading, hasMore, isLoadingMore]
   );
 
-  // Reset filters
   const handleResetAllFilters = () => {
     dispatch(
       setFilters({
@@ -115,8 +107,8 @@ export default function AllMedicines() {
         tags: [],
         symptoms: [],
         inStock: 'all',
-        requiredPrescription: 'all',
-        price: [0, 1000],
+        // requiredPrescription: 'all',
+        price: [0, 200000],
         type: '',
         categories: [],
         sortBy: '',
@@ -142,14 +134,14 @@ export default function AllMedicines() {
     !!filters.symptoms?.length,
     !!filters.tags?.length,
     filters.inStock !== 'all',
-    filters.requiredPrescription !== 'all',
-    filters.price[0] > 0 || filters.price[1] < 1000,
+    // filters.requiredPrescription !== 'all',
+    filters.price[0] > 0 || filters.price[1] < 200000,
     !!filters.type,
   ].filter(Boolean).length;
 
   return (
     <div className="container mx-auto p-4">
-      {/* Mobile drawer */}
+      {/* Mobile Drawer */}
       <div className="mb-4 flex md:hidden">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
@@ -162,7 +154,7 @@ export default function AllMedicines() {
             <DrawerHeader>
               <DrawerTitle>Filters & Search</DrawerTitle>
               <DrawerDescription>
-                Find the right medicine for your health
+                Find the right Medicine for your health
               </DrawerDescription>
             </DrawerHeader>
             <div className="max-h-[60vh] overflow-y-auto px-4 pb-4">
@@ -178,12 +170,12 @@ export default function AllMedicines() {
       </div>
 
       <div className="flex flex-col gap-4 md:flex-row">
-        {/* Sidebar for desktop */}
+        {/* Desktop Sidebar */}
         <div className="hidden md:block md:w-1/4 lg:w-1/5">
           <FilterSidebar />
         </div>
 
-        {/* Main content */}
+        {/* Main Content */}
         <div className="w-full md:w-3/4 lg:w-4/5">
           <div className="mb-4">
             {search && (
@@ -209,7 +201,7 @@ export default function AllMedicines() {
             )}
           </div>
 
-          {/* Medicine cards */}
+          {/* Medicine Cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {isLoading && page === 1 ? (
               Array(4)
@@ -221,20 +213,20 @@ export default function AllMedicines() {
                   ></div>
                 ))
             ) : allMedicines.length > 0 ? (
-              allMedicines.map((medicine: IMedicine, index: number) => {
+              allMedicines.map((Medicine: IMedicine, index: number) => {
                 const isLast = index === allMedicines.length - 1;
                 return (
                   <div
-                    key={medicine._id || index}
+                    key={Medicine._id || index}
                     ref={isLast ? lastMedicineRef : null}
                   >
-                    <MedicineCard medicine={medicine} />
+                    <MedicineCard Medicine={Medicine} />
                   </div>
                 );
               })
             ) : (
               <div className="col-span-full flex flex-col items-center py-10 text-center text-gray-500">
-                <p className="mb-4">No medicines found matching your criteria.</p>
+                <p className="mb-4">No Medicines found matching your criteria.</p>
                 <Button variant="outline" onClick={handleResetAllFilters}>
                   Reset All Filters
                 </Button>
@@ -242,14 +234,14 @@ export default function AllMedicines() {
             )}
           </div>
 
-          {/* Loading more indicator */}
+          {/* Loading More Spinner */}
           {isLoadingMore && (
             <div className="mt-6 flex justify-center">
               <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-900"></div>
             </div>
           )}
 
-          {/* End of results message */}
+          {/* No More Results */}
           {!hasMore && allMedicines.length > 0 && (
             <div className="mt-6 text-center text-gray-500">
               <p>You have reached the end of results</p>

@@ -59,7 +59,7 @@ export default function ProductsTable() {
           No products found. Add your first Medicine product.
         </p>
         <Button asChild>
-          <Link href="/admin/medicines/add">Add Product</Link>
+          <Link href="/admin/Medicines/add">Add Product</Link>
         </Button>
       </div>
     );
@@ -72,7 +72,7 @@ export default function ProductsTable() {
       toast.success('Medicine deleted success');
     } catch (error) {
       toast.error('failed to delete');
-      console.error('Failed to delete medicine:', error);
+      console.error('Failed to delete Medicine:', error);
     }
   };
 
@@ -136,13 +136,13 @@ export default function ProductsTable() {
 
               <div className="flex items-center justify-between p-4">
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={`/admin/medicines/details/${product._id}`}>
+                  <Link href={`/admin/Medicines/details/${product._id}`}>
                     <Eye className="mr-2 h-4 w-4" />
                     View
                   </Link>
                 </Button>
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={`/admin/medicines/edit/${product._id}`}>
+                  <Link href={`/admin/Medicines/edit/${product._id}`}>
                     <Edit className="mr-2 h-4 w-4" />
                     Edit
                   </Link>
@@ -237,13 +237,13 @@ export default function ProductsTable() {
                 <TableCell>
                   <div className="flex space-x-2">
                     <Button variant="outline" size="icon" asChild>
-                      <Link href={`/admin/medicines/details/${product._id}`}>
+                      <Link href={`/admin/Medicines/details/${product._id}`}>
                         <Eye className="h-4 w-4" />
                         <span className="sr-only">View Details</span>
                       </Link>
                     </Button>
                     <Button variant="outline" size="icon" asChild>
-                      <Link href={`/admin/medicines/edit/${product._id}`}>
+                      <Link href={`/admin/Medicines/edit/${product._id}`}>
                         <Edit className="h-4 w-4" />
                         <span className="sr-only">Edit</span>
                       </Link>

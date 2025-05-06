@@ -10,7 +10,7 @@ import { useRouter, usePathname } from 'next/navigation';
 
 export default function SearchBar() {
   const dispatch = useAppDispatch();
-  const { search } = useAppSelector((state) => state.medicines);
+  const { search } = useAppSelector((state) => state.Medicines);
   const [input, setInput] = useState(search);
   const router = useRouter();
   const pathname = usePathname();

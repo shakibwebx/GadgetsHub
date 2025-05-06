@@ -1,11 +1,12 @@
 'use client';
+
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { Eye, EyeClosed } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -27,16 +28,15 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const res = await signIn('credentials', {
       email: formData.email,
       password: formData.password,
       redirect: false,
       callbackUrl,
     });
+
     if (res?.ok) {
       toast.success('Login successful!');
-      // Delay redirection a bit to show toast
       setTimeout(() => {
         window.location.href = callbackUrl;
       }, 1500);
@@ -47,125 +47,115 @@ export default function LoginPage() {
 
   const handleSocialLogin = (provider: string) => {
     signIn(provider, {
-      callbackUrl, // dynamic redirect
+      callbackUrl,
     });
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md space-y-6 rounded-2xl bg-white p-8 shadow-lg">
-        <h2 className="text-center text-2xl font-semibold text-gray-700">
-          Login
+    <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md space-y-6">
+        <h2 className="text-center text-3xl font-bold text-[#1E1216]">
+          Welcome Back
         </h2>
+        <p className="text-center text-sm text-gray-500">
+          Please log in to your account
+        </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
-            >
-              Email
+            <label htmlFor="email" className="block text-sm font-medium text-[#1E1216]">
+              Email address
             </label>
             <input
               type="email"
-              id="email"
               name="email"
+              id="email"
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full rounded-lg border px-4 py-2 focus:ring focus:ring-indigo-300 focus:outline-none"
+              className="mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ff6e18] focus:outline-none"
             />
           </div>
 
-          <div className="w-full">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
-            >
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-[#1E1216]">
               Password
             </label>
             <div className="relative mt-1">
               <input
                 type={togglePassword ? 'text' : 'password'}
-                id="password"
                 name="password"
+                id="password"
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full rounded-lg border px-4 py-2 pr-10 focus:ring focus:ring-indigo-300 focus:outline-none"
+                className="w-full px-4 py-2 pr-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ff6e18] focus:outline-none"
               />
-
               <button
                 type="button"
                 onClick={() => setTogglePassword(!togglePassword)}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600 hover:text-gray-800"
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-600"
               >
-                {togglePassword ? (
-                  <Eye className="cursor-pointer" />
-                ) : (
-                  <EyeClosed className="cursor-pointer" />
-                )}
+                {togglePassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="flex items-center">
+            <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 name="remember"
                 checked={formData.remember}
                 onChange={handleChange}
-                className="cursor-pointer rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                className="rounded border-gray-300 text-[#ff6e18] focus:ring-[#ff6e18]"
               />
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              <span className="text-sm text-gray-700">Remember me</span>
             </label>
-            <a href="#" className="text-sm text-indigo-600 hover:underline">
+            <a href="#" className="text-sm text-[#ff6e18] hover:underline">
               Forgot password?
             </a>
           </div>
 
           <button
             type="submit"
-            className="w-full cursor-pointer rounded-lg bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-800"
+            className="w-full bg-[#ff6e18] text-white py-2 rounded-lg hover:bg-[#e65c10] transition-colors"
           >
-            Login
+            Log In
           </button>
         </form>
 
-        {/* Social Login Buttons */}
-        <div className="flex flex-col space-y-3">
+        <div className="space-y-2">
           <button
             onClick={() => handleSocialLogin('github')}
-            className="flex cursor-pointer items-center justify-center rounded-lg bg-gray-900 px-4 py-2 text-white hover:bg-gray-600"
+            className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
           >
             <Image
               src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
               alt="GitHub Logo"
-              width={24}
-              height={24}
-              className="mr-2 rounded-full"
+              width={20}
+              height={20}
             />
             Login with GitHub
           </button>
+
           <button
             onClick={() => handleSocialLogin('google')}
-            className="flex cursor-pointer items-center justify-center rounded-lg bg-slate-800 px-4 py-2 text-white hover:bg-slate-600"
+            className="w-full flex items-center justify-center gap-2 bg-slate-700 text-white py-2 rounded-lg hover:bg-slate-600 transition-colors"
           >
             <Image
               src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
-              alt="GitHub Logo"
-              width={24}
-              height={24}
-              className="mr-2 rounded-full"
+              alt="Google Logo"
+              width={20}
+              height={20}
             />
             Login with Google
           </button>
         </div>
 
         <p className="text-center text-sm text-gray-600">
-          Don&rsquo;t have an account?{' '}
-          <Link href="/register" className="text-indigo-600 hover:underline">
+          Don’t have an account?{' '}
+          <Link href="/register" className="text-[#ff6e18] hover:underline">
             Sign up
           </Link>
         </p>

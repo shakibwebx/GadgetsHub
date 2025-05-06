@@ -59,7 +59,7 @@ const Footer = () => {
         </div>
       </div>
       <p className="bg-[#1F1F1F] px-4 py-6 text-center text-sm text-[#F27F20]">
-        © Copyright 2025 by GadgetsHub. All right reserved.
+        © Copyright 2025 by Gadgets-Hub. All right reserved.
       </p>
     </footer>
   );

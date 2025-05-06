@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cartReducer from './features/cart/cartSlice';
-import medicineReducer from './features/productSlice';
+import MedicineReducer from './features/productSlice';
 import authReducer from './auth/authSlice';
 
 import {
@@ -25,7 +25,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   cart: cartReducer,
-  medicines: medicineReducer,
+  Medicines: MedicineReducer,
   auth: authReducer, // ✅ now 'auth' will be available in RootState
   [baseApi.reducerPath]: baseApi.reducer,
 });

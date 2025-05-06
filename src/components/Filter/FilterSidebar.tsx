@@ -21,7 +21,7 @@ import {
 
 export default function FilterSidebar() {
   const dispatch = useAppDispatch();
-  const { filters } = useAppSelector((state) => state.medicines);
+  const { filters } = useAppSelector((state) => state.Medicines);
 
   const [priceRange, setPriceRange] = useState<[number, number]>(filters.price);
   const [requiredPrescription, setRequiredPrescription] = useState<
@@ -43,7 +43,7 @@ export default function FilterSidebar() {
     filters.symptoms || []
   );
 
-  const { data: medicines, isLoading } = useGetAllMedicineQuery(undefined, {
+  const { data: Medicines, isLoading } = useGetAllMedicineQuery(undefined, {
     pollingInterval: 30000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
@@ -65,7 +65,7 @@ export default function FilterSidebar() {
     return <span>Loading...</span>;
   }
 
-  const medicinesData = medicines?.data?.data || [];
+  const MedicinesData = Medicines?.data?.data || [];
 
   // reset all filters
   const handleResetFilters = () => {
@@ -163,12 +163,12 @@ export default function FilterSidebar() {
   ];
 
   // extract unique tags and symptoms
-  const allTags = medicinesData.flatMap(
+  const allTags = MedicinesData.flatMap(
     (med: IMedicine) => med.tags ?? []
   ) as string[];
   const uniqueTags = Array.from(new Set(allTags));
 
-  const allSymptoms = medicinesData.flatMap(
+  const allSymptoms = MedicinesData.flatMap(
     (med: IMedicine) => med.symptoms ?? []
   ) as string[];
   const uniqueSymptoms = Array.from(new Set(allSymptoms));

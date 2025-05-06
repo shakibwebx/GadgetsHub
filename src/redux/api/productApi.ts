@@ -3,11 +3,11 @@ import baseApi from './baseApi';
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // get all medicines
+    // get all Medicines
     getAllMedicine: builder.query({
       query: (params: GetAllMedicinesParams | string = {}) => {
         if (typeof params === 'string') {
-          return params ? `/medicines?searchTerm=${params}` : '/medicines';
+          return params ? `/Medicines?searchTerm=${params}` : '/Medicines';
         }
 
         const queryParams = new URLSearchParams();
@@ -53,18 +53,18 @@ const productApi = baseApi.injectEndpoints({
         if (params.limit) queryParams.append('limit', params.limit.toString());
 
         const queryString = queryParams.toString();
-        return queryString ? `/medicines?${queryString}` : '/medicines';
+        return queryString ? `/Medicines?${queryString}` : '/Medicines';
       },
       providesTags: ['Medicine'],
     }),
-    // get single medicine
+    // get single Medicine
     getSingleMedicine: builder.query({
-      query: (medicineId?: string) => `/medicines/${medicineId}`,
+      query: (MedicineId?: string) => `/Medicines/${MedicineId}`,
     }),
-    // add medicine
+    // add Medicine
     addMedicine: builder.mutation<IMedicine, FormData>({
       query: (data) => ({
-        url: '/medicines/create-medicine',
+        url: '/Medicines/create-Medicine',
         method: 'POST',
         body: data,
         formData: true,
@@ -73,17 +73,17 @@ const productApi = baseApi.injectEndpoints({
     }),
     // addMedicine: builder.mutation({
     //   query: (data?: IMedicine) => ({
-    //     url: `/medicines/create-medicine`,
+    //     url: `/Medicines/create-Medicine`,
     //     method: 'POST',
     //     body: data,
     //   }),
     //   invalidatesTags: ['Medicine'],
     // }),
-    // update medicine
+    // update Medicine
     updateMedicine: builder.mutation<IMedicine, { id: string; data: FormData }>(
       {
         query: ({ id, data }) => ({
-          url: `/medicines/${id}`,
+          url: `/Medicines/${id}`,
           method: 'PATCH',
           body: data,
           formData: true,
@@ -93,16 +93,16 @@ const productApi = baseApi.injectEndpoints({
     ),
     // updateMedicine: builder.mutation({
     //   query: ({ id, data }: { id: string; data: IMedicine }) => ({
-    //     url: `/medicines/${id}`,
+    //     url: `/Medicines/${id}`,
     //     method: 'PATCH',
     //     body: data,
     //   }),
     //   invalidatesTags: ['Medicine'],
     // }),
-    // delete medicine
+    // delete Medicine
     deleteMedicine: builder.mutation({
       query: (id: string) => ({
-        url: `/medicines/${id}`,
+        url: `/Medicines/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Medicine'],

@@ -9,16 +9,23 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const categories = [
-  { name: 'Smart Watch', icon: <Watch className="h-10 w-10 text-[#F27F20]" /> },
-  { name: 'Smartphone', icon: <Smartphone className="h-10 w-10 text-[#F27F20]" /> },
-  { name: 'Laptop', icon: <Laptop className="h-10 w-10 text-[#F27F20]" /> },
-  { name: 'PC', icon: <Monitor className="h-10 w-10 text-[#F27F20]" /> },
-  { name: 'Airbuds', icon: <Headphones className="h-10 w-10 text-[#F27F20]" /> },
+  { name: 'Smart Watch', icon: <Watch className="h-10 w-10 text-[#F27F20]" />, query: 'watch' },
+  { name: 'Smartphone', icon: <Smartphone className="h-10 w-10 text-[#F27F20]" />, query: 'phone' },
+  { name: 'Laptop', icon: <Laptop className="h-10 w-10 text-[#F27F20]" />, query: 'macbook' },
+  { name: 'PC', icon: <Monitor className="h-10 w-10 text-[#F27F20]" />, query: 'computer' },
+  { name: 'Airbuds', icon: <Headphones className="h-10 w-10 text-[#F27F20]" />, query: 'headphone' },
 ];
 
 const CategorySection = () => {
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryQuery: string) => {
+    router.push(`/shop?category=${encodeURIComponent(categoryQuery)}`);
+  };
+
   return (
     <section className="bg-[#f5f5f5] py-10">
       <div className="container mx-auto px-4">
@@ -31,6 +38,8 @@ const CategorySection = () => {
               key={index}
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300 }}
+              onClick={() => handleCategoryClick(category.query)}
+              className="cursor-pointer"
             >
               <Card className="bg-white text-center shadow-sm border border-gray-200 hover:shadow-md transition rounded-2xl p-5">
                 <CardContent className="flex flex-col items-center justify-center gap-4">
