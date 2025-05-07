@@ -1,21 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
-
 import { Navigation, Autoplay } from 'swiper/modules';
 
+// Icons for top gadget brands
+import { FaMicrosoft, FaGoogle } from 'react-icons/fa';
+import { SiSamsung, SiSony } from 'react-icons/si';
+import { SiAsus, SiLenovo, SiHp, SiDell } from 'react-icons/si';
+
 const brands = [
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-12.jpg',
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-52.jpg',
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-22.jpg',
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-32.jpg',
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-42.jpg',
-  'https://demo2.themelexus.com/medilazar/wp-content/uploads/2020/11/brands-52.jpg',
+  { icon: <SiSamsung />, name: 'Samsung' },
+  { icon: <SiSony />, name: 'Sony' },
+  { icon: <FaMicrosoft />, name: 'Microsoft' },
+  { icon: <FaGoogle />, name: 'Google' },
+  { icon: <SiAsus />, name: 'Asus' },
+  { icon: <SiLenovo />, name: 'Lenovo' },
+  { icon: <SiHp />, name: 'HP' },
+  { icon: <SiDell />, name: 'Dell' },
 ];
 
 const FeaturedBrandsSlider = () => {
@@ -37,40 +42,28 @@ const FeaturedBrandsSlider = () => {
     };
 
     handleResize();
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
     <section className="mx-12 my-12">
-      <h2 className="mb-10 text-3xl font-bold">Featured Brands</h2>
+      <h2 className="mb-10 text-3xl font-bold text-center">Featured Brands</h2>
       <Swiper
         modules={[Navigation, Autoplay]}
         slidesPerView={slidesPerView}
-        // slidesPerView={5}
-        spaceBetween={10}
+        spaceBetween={20}
         loop={true}
         autoplay={{
           delay: 2000,
           disableOnInteraction: false,
         }}
       >
-        {brands.map((src, index) => (
-          <SwiperSlide
-            key={index}
-            className="ml-4 flex items-center justify-center"
-          >
-            <div className="relative h-[60px] w-[160px]">
-              <Image
-                src={src}
-                alt={`Brand ${index + 1}`}
-                fill
-                quality={100}
-                priority
-                className="object-contain"
-                sizes="(max-width: 768px) 100px, 160px"
-              />
+        {brands.map((brand, index) => (
+          <SwiperSlide key={index} className="flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-gray-700 hover:text-black transition">
+              <div className="text-6xl">{brand.icon}</div>
+              <span className="mt-2 text-sm font-medium">{brand.name}</span>
             </div>
           </SwiperSlide>
         ))}

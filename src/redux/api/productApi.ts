@@ -64,7 +64,7 @@ const productApi = baseApi.injectEndpoints({
     // add Medicine
     addMedicine: builder.mutation<IMedicine, FormData>({
       query: (data) => ({
-        url: '/Medicines/create-medicine',
+        url: '/medicines/create-medicine',
         method: 'POST',
         body: data,
         formData: true,

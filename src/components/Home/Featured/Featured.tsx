@@ -37,13 +37,13 @@ const Featured = () => {
             key={product._id}
             className="group relative transition-all duration-300 border border-gray-200 rounded-3xl shadow-md hover:shadow-2xl overflow-hidden"
           >
-            <div className="relative h-48 w-full overflow-hidden rounded-xl bg-gray-100">
+            <div className="relative h-48 w-full overflow-hidden rounded-xl bg-white">
               <Image
                 src={product.imageUrl || '/placeholder-image.png'}
                 alt={product.name}
                 width={300}
                 height={300}
-                className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-110"
               />
             </div>
 

@@ -3,56 +3,46 @@ import DefaultLayout from '@/components/DefaultLayout/DefaultLayout';
 const About = () => {
   return (
     <DefaultLayout>
-      <div className="min-h-screen bg-gray-50 px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-md">
-          <h1 className="mb-6 text-3xl font-bold text-teal-700">
-            About Medi Sphere
+      <div className="min-h-screen bg-gray-100 px-6 py-12 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-3xl rounded-xl bg-white p-8 shadow-lg border border-gray-200">
+          <h1 className="mb-6 text-3xl font-semibold text-teal-800">
+            About Gadgets-Hub
           </h1>
 
-          <p className="mb-4 text-gray-700">
-            At <span className="font-semibold text-teal-600">Medi Sphere</span>,
-            we are committed to revolutionizing healthcare by making trusted
-            Medicines and wellness products accessible to everyone, everywhere.
+          <p className="mb-4 text-lg text-gray-800">
+            At <span className="font-bold text-teal-600">Gadgets-Hub</span>, we aim to transform the way you discover, buy, and interact with the latest tech and gadgets. Our mission is simple: bring cutting-edge electronics and accessories to your doorstep with ease and reliability.
           </p>
 
-          <p className="mb-4 text-gray-700">
-            Founded with a vision to simplify the way people manage their
-            health, Medi Sphere offers a seamless online experience where users
-            can order genuine Medicines, consult experts, and access reliable
-            healthcare content—all from the comfort of their home.
+          <p className="mb-4 text-lg text-gray-800">
+            Founded by a group of technology enthusiasts, Gadgets-Hub offers an online shopping platform where you can browse the latest smartphones, laptops, wearables, gaming gear, and more—all with the convenience of quick delivery and seamless customer service.
           </p>
 
-          <p className="mb-4 text-gray-700">
-            Whether it&apos;s chronic condition management, daily wellness, or
-            urgent prescriptions, we strive to serve with speed, safety, and
-            sincerity. Our mission is to build a healthier tomorrow by
-            empowering individuals with the right healthcare tools today.
+          <p className="mb-4 text-lg text-gray-800">
+            Whether you&#39;re a gamer, a professional, or someone who loves the latest tech, we have products to meet your needs. Our platform is designed to be intuitive, mobile-friendly, and secure, ensuring a smooth shopping experience.
           </p>
 
           <h2 className="mt-8 mb-4 text-2xl font-semibold text-teal-700">
-            Why Choose Us?
+            Why Choose Gadgets-Hub?
           </h2>
           <ul className="list-inside list-disc space-y-2 text-gray-700">
-            <li>Certified and authentic Medicines</li>
-            <li>Fast and secure delivery</li>
-            <li>Expert pharmacist and doctor consultations</li>
-            <li>Easy-to-use and mobile-friendly platform</li>
-            <li>24/7 customer support</li>
+            <li>Exclusive access to the latest tech gadgets</li>
+            <li>Fast and secure delivery options</li>
+            <li>24/7 customer support via chat, email, and phone</li>
+            <li>Easy-to-use, mobile-friendly shopping experience</li>
+            <li>Trusted by thousands of gadget enthusiasts worldwide</li>
           </ul>
 
           <h2 className="mt-8 mb-4 text-2xl font-semibold text-teal-700">
             Our Vision
           </h2>
-          <p className="text-gray-700">
-            To become the most trusted digital pharmacy brand, bringing
-            affordable healthcare to every doorstep across the nation and
-            beyond.
+          <p className="text-lg text-gray-700">
+            To become the leading online destination for gadget lovers, offering an extensive range of high-quality electronics and accessories, while ensuring an unmatched customer experience.
           </p>
 
           <div className="mt-10 text-sm text-gray-500">
-            <p>📍 Head Office: 123 Wellness Road, Dhaka, Bangladesh</p>
-            <p>📞 Helpline: +880 123 456 789</p>
-            <p>📧 Email: care@medisphere.com</p>
+            <p>📍 Head Office: 123 Tech Avenue, Silicon Valley, USA</p>
+            <p>📞 Helpline: +1 800 123 4567</p>
+            <p>📧 Email: support@gadgetshub.com</p>
           </div>
         </div>
       </div>

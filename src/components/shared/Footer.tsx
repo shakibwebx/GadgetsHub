@@ -1,66 +1,103 @@
-import Link from 'next/link';
+'use client';
 
+import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Linkedin, Twitter } from 'lucide-react';
 
 const Footer = () => {
   return (
     <footer className="bg-[#1F1F1F] text-white">
-      <div className="mx-auto mt-10 w-full px-8 lg:px-20">
-        <div className="grid grid-cols-2 gap-[40px] px-4 py-6 md:grid-cols-4 lg:py-8">
+      <div className="mx-auto w-full px-6 pt-10 pb-6 lg:px-20">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+          {/* Logo & Description */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/">
-              <Image src="/logo.webp" alt="Company Logo" width={100} height={100} />
+            <Link href="/" aria-label="Gadgets-Hub Home">
+              <Image
+                src="/logo.webp"
+                alt="Gadgets-Hub Logo"
+                width={100}
+                height={100}
+              />
             </Link>
-            <p className="mt-4">
-              Providing reliable healthcare essentials and personalized service
-              to support your wellness journey—every day, with care.
+            <p className="mt-4 text-sm text-gray-300">
+              Your ultimate hub for the latest gadgets — from smartphones to
+              smartwatches, delivering innovation to your doorstep.
             </p>
-            <div className="my-5 flex gap-5 text-[#F27F20]">
-              <Facebook />
-              <Twitter />
-              <Linkedin />
+            <div className="mt-5 flex gap-4 text-[#F27F20]">
+              <a href="#" aria-label="Facebook">
+                <Facebook />
+              </a>
+              <a href="#" aria-label="Twitter">
+                <Twitter />
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <Linkedin />
+              </a>
             </div>
           </div>
-          <div className="links-container">
-            <h2 className="mb-6 text-xl leading-[1.4] font-bold text-[#F27F20]">
-              Product
-            </h2>
-            <ul>
-              <li className="mb-4">
+
+          {/* Product Links */}
+          <div>
+            <h2 className="mb-4 text-lg font-bold text-[#F27F20]">Products</h2>
+            <ul className="text-sm space-y-3 text-gray-300">
+              <li>
                 <Link href="/shop">Shop</Link>
               </li>
-              <li className="mb-4">Features</li>
-              <li className="mb-4">Pricing</li>
-              <li className="mb-4">Case Studies</li>
+              <li>
+                <a href="#">New Arrivals</a>
+              </li>
+              <li>
+                <a href="#">Best Sellers</a>
+              </li>
+              <li>
+                <a href="#">Special Offers</a>
+              </li>
             </ul>
           </div>
-          <div className="links-container">
-            <h2 className="mb-6 text-xl leading-[1.4] font-bold text-[#F27F20]">
-              Service
-            </h2>
-            <ul>
-              <li className="mb-4">Blog</li>
-              <li className="mb-4">Roadmap</li>
-              <li className="mb-4">Testimonials</li>
+
+          {/* Support Links */}
+          <div>
+            <h2 className="mb-4 text-lg font-bold text-[#F27F20]">Support</h2>
+            <ul className="text-sm space-y-3 text-gray-300">
+              <li>
+                <a href="#">Blog</a>
+              </li>
+              <li>
+                <a href="#">FAQs</a>
+              </li>
+              <li>
+                <a href="#">Help Center</a>
+              </li>
+              <li>
+                <a href="#">Contact Us</a>
+              </li>
             </ul>
           </div>
-          <div className="links-container">
-            <h2 className="mb-6 text-xl leading-[1.4] font-bold text-[#F27F20]">
-              Solutions
-            </h2>
-            <ul>
-              <li className="mb-4">Process Management</li>
-              <li className="mb-4">Request Management</li>
-              <li className="mb-4">Workflow Management</li>
-              <li className="mb-4">Finance</li>
+
+          {/* Solutions Links */}
+          <div>
+            <h2 className="mb-4 text-lg font-bold text-[#F27F20]">Solutions</h2>
+            <ul className="text-sm space-y-3 text-gray-300">
+              <li>
+                <a href="#">Device Management</a>
+              </li>
+              <li>
+                <a href="#">Smart Home Integration</a>
+              </li>
+              <li>
+                <a href="#">Gadget Insurance</a>
+              </li>
+              <li>
+                <a href="#">Tech Consultancy</a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
-      <p className="bg-[#1F1F1F] px-4 py-6 text-center text-sm text-[#F27F20]">
-        © Copyright 2025 by Gadgets-Hub. All right reserved.
-      </p>
+
+      <div className="bg-[#1F1F1F] border-t border-gray-700 py-6 text-center text-sm text-[#F27F20]">
+        © 2025 Gadgets-Hub. All rights reserved.
+      </div>
     </footer>
   );
 };

@@ -27,7 +27,7 @@ const items = [
     icon: MonitorSmartphone,
   },
   {
-    title: 'Manage Medicine',
+    title: 'Manage Gadgets',
     url: '/admin/medicines',
     icon: Cpu,
   },

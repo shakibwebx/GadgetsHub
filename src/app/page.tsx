@@ -5,6 +5,7 @@ import FeaturedBrandsSlider from '@/components/Home/FeaturedBrand/FeaturedBrands
 import HeroSlider from '@/components/Home/HeroSlider/HeroSlider';
 import DealProduct from '@/components/Home/DealProduct';
 import CategorySection from '@/components/Home/Categorysection';
+import Banner from '@/components/Home/Banner';
 
 const Home = () => {
   return (
@@ -13,9 +14,11 @@ const Home = () => {
       <div className="mx-auto max-w-7xl">
         <CategorySection />
       {/* <MediCard /> */}
-      <FeaturedBrandsSlider />
-
+    
       <Featured />
+      <FeaturedBrandsSlider />
+      
+      <Banner />
       <DealProduct />
 
       <Testimonial />

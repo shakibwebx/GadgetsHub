@@ -50,7 +50,7 @@ const DealProduct = () => {
       <div className="mb-12 text-center">
         <h2 className="text-4xl font-bold tracking-tight text-[#1E1216]">Deal of the Day</h2>
         <p className="text-muted-foreground text-sm mt-2">
-          Get exclusive discounts on select Medicine products!
+          Get exclusive discounts on select Gadgets!
         </p>
       </div>
 
