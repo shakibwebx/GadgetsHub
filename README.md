@@ -1,13 +1,13 @@
 # Live link
 
-https://medi-sphere-five.vercel.app/
+https://gadgets-hub-topaz.vercel.app/
 
 ## Getting Started
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Faey2023/medi-sphere
+   [git clone https://github.com/Faey2023/medi-sphere](https://github.com/shakibwebx/GadgetsHub)
 
    ```
 
