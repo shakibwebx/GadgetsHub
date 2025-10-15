@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 const AdminOrders = () => {
   const { data: order = [], isLoading, refetch } = useGetAllOrderQuery({});

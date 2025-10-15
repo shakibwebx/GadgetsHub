@@ -6,7 +6,7 @@ import { Slider } from '../ui/slider';
 import './filter.css';
 import { Checkbox } from '../ui/checkbox';
 import { Separator } from '../ui/separator';
-import { useGetAllMedicineQuery } from '@/redux/api/productApi';
+import { useGetAllProductQuery } from '@/redux/api/productApi';
 import { ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
@@ -43,7 +43,7 @@ export default function FilterSidebar() {
     filters.symptoms || []
   );
 
-  const { data: Medicines, isLoading } = useGetAllMedicineQuery(undefined, {
+  const { data: Medicines, isLoading } = useGetAllProductQuery(undefined, {
     pollingInterval: 30000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,

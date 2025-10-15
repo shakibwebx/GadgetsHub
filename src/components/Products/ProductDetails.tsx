@@ -21,7 +21,7 @@ import {
   ShoppingCart,
   AlertTriangle,
 } from 'lucide-react';
-import { useGetSingleMedicineQuery } from '@/redux/api/productApi';
+import { useGetSingleProductQuery } from '@/redux/api/productApi';
 import type { IMedicine } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -33,8 +33,8 @@ const ProductDetails = () => {
   const router = useRouter();
 
   // Medicine data
-  //   const { data, isLoading, isError, error } = useGetSingleMedicineQuery(id)
-  const { data, isLoading, isError, error } = useGetSingleMedicineQuery(id, {
+  //   const { data, isLoading, isError, error } = useGetSingleProductQuery(id)
+  const { data, isLoading, isError, error } = useGetSingleProductQuery(id, {
     refetchOnMountOrArgChange: true,
     refetchOnFocus: true,
   });
@@ -134,7 +134,7 @@ const ProductDetails = () => {
         <h1 className="text-2xl font-bold">Medicine Details</h1>
         <div className="ml-auto">
           <Button asChild>
-            <Link href={`/admin/Medicines/edit/${Medicine._id}`}>
+            <Link href={`/admin/products/edit/${Medicine._id}`}>
               <Edit className="mr-2 h-4 w-4" />
               Edit Medicine
             </Link>
@@ -184,10 +184,10 @@ const ProductDetails = () => {
                     {Medicine.discount > 0 ? (
                       <>
                         <span className="mr-2 font-medium line-through">
-                          ${Medicine.price.toFixed(2)}
+                          ৳{Medicine.price.toFixed(2)}
                         </span>
                         <span className="font-medium text-green-600">
-                          $
+                          ৳
                           {calculateDiscountedPrice(
                             Medicine.price,
                             Medicine.discount
@@ -199,7 +199,7 @@ const ProductDetails = () => {
                       </>
                     ) : (
                       <span className="font-medium">
-                        ${Medicine.price.toFixed(2)}
+                        ৳{Medicine.price.toFixed(2)}
                       </span>
                     )}
                   </div>
@@ -437,7 +437,7 @@ const ProductDetails = () => {
           {/* actions */}
           <div className="flex gap-4">
             <Button asChild className="flex-1">
-              <Link href={`/admin/Medicines/edit/${Medicine._id}`}>
+              <Link href={`/admin/products/edit/${Medicine._id}`}>
                 Edit Medicine
               </Link>
             </Button>

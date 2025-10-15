@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -71,14 +71,10 @@ export default function RegisterPage() {
   };
   async function handleSocialRegister(provider: string): Promise<void> {
     try {
-      // Simulate social authentication logic
-      toast.info(`Redirecting to ${provider} for authentication...`);
-      // Example: Redirect to a social auth endpoint or handle OAuth flow
-      // This is a placeholder for actual implementation
-      setTimeout(() => {
-        toast.success(`Successfully signed up with ${provider}!`);
-        router.push('/dashboard'); // Redirect to dashboard or desired page
-      }, 2000);
+      const { signIn } = await import('next-auth/react');
+      await signIn(provider, {
+        callbackUrl: '/',
+      });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error(`Failed to sign up with ${provider}. Please try again.`);

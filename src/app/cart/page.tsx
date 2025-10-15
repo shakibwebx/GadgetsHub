@@ -17,17 +17,16 @@ import { Trash2, Undo } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useCreateOrderMutation } from '@/redux/features/payment/paymentSlice';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const CartPage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { data: session } = useSession();
   const cart = useSelector((state: RootState) => state.cart.cart);
-  const [deliveryOption, setDeliveryOption] = useState<'standard' | 'express'>(
-    'standard'
-  );
   const [createOrder, { isLoading, isError, error }] = useCreateOrderMutation();
   const calculateDiscountedPrice = (price: number, discount: number) =>
     price - discount;
@@ -64,67 +63,15 @@ const CartPage = () => {
   const handleRemove = (id: string) => {
     dispatch(removeFromCart(id));
   };
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!session?.user) {
       toast.error('Please login to proceed with checkout.');
       signIn(undefined, { callbackUrl: '/cart' });
       return;
     }
-    const nonPrescriptionItems = cart.filter(
-      (item) => !item.requiredPrescription
-    );
-    const uploadedPrescriptionItems = cart.filter(
-      (item) => item.requiredPrescription && item.prescription
-    );
-    const missingPrescriptionItems = cart.filter(
-      (item) => item.requiredPrescription && !item.prescription
-    );
-    const itemsToProceed = [
-      ...nonPrescriptionItems,
-      ...uploadedPrescriptionItems,
-    ];
 
-    if (itemsToProceed.length === 0) {
-      toast.error(
-        'Please upload prescription for the required items before checkout.'
-      );
-      return;
-    }
-
-    const formattedItems = itemsToProceed.map((item) => ({
-      product: item._id,
-      name: item.name,
-      quantity: item.quantity,
-      prescriptionFile: item.prescription || 'notRequired',
-    }));
-
-    try {
-      const res = await createOrder({
-        products: formattedItems,
-        deliveryType: deliveryOption,
-        pendingPrescriptions: missingPrescriptionItems.map((item) => ({
-          product: item._id,
-          name: item.name,
-          quantity: item.quantity,
-        })),
-      });
-
-      if ('data' in res && res?.data?.data) {
-        toast.success(res?.data?.message);
-        if (res?.data?.data) {
-          setTimeout(() => {
-            window.location.href = res?.data?.data;
-          }, 1000);
-        }
-        const remainingItems = cart.filter(
-          (item) => item.requiredPrescription && !item.prescription
-        );
-        dispatch(setCart(remainingItems));
-      }
-    } catch (err) {
-      console.log(err);
-      toast.error('Failed to Process!');
-    }
+    // Redirect to checkout page
+    router.push('/checkout');
   };
   useEffect(() => {
     if (isError) {
@@ -140,7 +87,6 @@ const CartPage = () => {
       calculateDiscountedPrice(item.price, item.discount || 0) * item.quantity,
     0
   );
-  const total = subtotal + (deliveryOption === 'standard' ? 3 : 6);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -198,10 +144,10 @@ const CartPage = () => {
                           <h2 className="text-lg font-semibold">{item.name}</h2>
                           <p className="text-muted-foreground text-sm">
                             <span className="line-through">
-                              ${item.price.toFixed(2)}
+                              ৳{item.price.toFixed(2)}
                             </span>
                             <span className="text-red-600">
-                              ${discountedPrice.toFixed(2)} x {item.quantity}
+                              ৳{discountedPrice.toFixed(2)} x {item.quantity}
                             </span>
                           </p>
                         </div>
@@ -267,62 +213,33 @@ const CartPage = () => {
 
           <div className="sticky top-24">
             <Card className="rounded-2xl p-6 shadow">
-              <h3 className="mb-4 text-xl font-semibold">Order Summary</h3>
-              <div className="mb-2 flex justify-between">
-                <span>Subtotal (Payable Items)</span>
-                <span>${subtotal.toFixed(2)}</span>
-              </div>
+              <h3 className="mb-4 text-xl font-semibold">Cart Summary</h3>
 
-              <div className="mb-2">
-                <span className="font-semibold">Payable Products:</span>
-                <ul className="list-disc pl-4">
-                  {payableItems.map((item) => (
-                    <li key={item._id}>{item.name}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mb-2 flex justify-between">
-                <span>Delivery</span>
-                <span>{deliveryOption === 'standard' ? '$3.00' : '$6.00'}</span>
-              </div>
-              <Separator className="my-2" />
-              <div className="flex justify-between text-lg font-semibold">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
-              </div>
-              <div className="mt-4">
-                <Label className="mb-2 block font-medium">
-                  Delivery Option
-                </Label>
-                <div className="flex gap-4">
-                  <Button
-                    variant={
-                      deliveryOption === 'standard' ? 'default' : 'outline'
-                    }
-                    onClick={() => setDeliveryOption('standard')}
-                  >
-                    Standard (3-5 days)
-                  </Button>
-                  <Button
-                    variant={
-                      deliveryOption === 'express' ? 'default' : 'outline'
-                    }
-                    onClick={() => setDeliveryOption('express')}
-                  >
-                    Express (1-2 days)
-                  </Button>
+              <div className="space-y-3 mb-4">
+                <div className="flex justify-between text-gray-700">
+                  <span>Items ({cart.length})</span>
+                  <span className="font-semibold">{cart.length}</span>
+                </div>
+                <div className="flex justify-between text-gray-700">
+                  <span>Subtotal</span>
+                  <span className="font-semibold">৳{subtotal.toFixed(2)}</span>
                 </div>
               </div>
-              {session?.user?.role !== 'admin' && (
-                <Button
-                  onClick={handleCheckout}
-                  className="mt-6 w-full bg-green-600 text-white hover:bg-green-700"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Processing...' : 'Proceed to Checkout'}
-                </Button>
-              )}
+
+              <Separator className="my-4" />
+
+              <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <p className="text-sm text-blue-800">
+                  <strong>Note:</strong> Delivery options and final total will be calculated at checkout.
+                </p>
+              </div>
+
+              <Button
+                onClick={handleCheckout}
+                className="w-full bg-gradient-to-r from-[#ff6e18] to-[#ff8c42] text-white hover:opacity-90 font-bold shadow-lg hover:shadow-xl transition-all duration-300 py-6 text-lg"
+              >
+                Proceed to Checkout
+              </Button>
             </Card>
           </div>
         </div>

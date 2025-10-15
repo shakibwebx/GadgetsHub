@@ -1,13 +1,13 @@
-import { GetAllMedicinesParams, IMedicine } from '@/types';
+import { GetAllProductsParams, IProduct } from '@/types';
 import baseApi from './baseApi';
 
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // get all Medicines
-    getAllMedicine: builder.query({
-      query: (params: GetAllMedicinesParams | string = {}) => {
+    // get all Products
+    getAllProduct: builder.query({
+      query: (params: GetAllProductsParams | string = {}) => {
         if (typeof params === 'string') {
-          return params ? `/medicines?searchTerm=${params}` : '/medicines';
+          return params ? `/products?searchTerm=${params}` : '/products';
         }
 
         const queryParams = new URLSearchParams();
@@ -53,67 +53,51 @@ const productApi = baseApi.injectEndpoints({
         if (params.limit) queryParams.append('limit', params.limit.toString());
 
         const queryString = queryParams.toString();
-        return queryString ? `/medicines?${queryString}` : '/medicines';
+        return queryString ? `/products?${queryString}` : '/products';
       },
-      providesTags: ['Medicine'],
+      providesTags: ['Product'],
     }),
-    // get single Medicine
-    getSingleMedicine: builder.query({
-      query: (MedicineId?: string) => `/medicines/${MedicineId}`,
+    // get single Product
+    getSingleProduct: builder.query({
+      query: (ProductId?: string) => `/products/${ProductId}`,
     }),
-    // add Medicine
-    addMedicine: builder.mutation<IMedicine, FormData>({
+    // add Product
+    addProduct: builder.mutation<IProduct, FormData>({
       query: (data) => ({
-        url: '/medicines/create-medicine',
+        url: '/products/create-product',
         method: 'POST',
         body: data,
         formData: true,
       }),
-      invalidatesTags: ['Medicine'],
+      invalidatesTags: ['Product'],
     }),
-    // addMedicine: builder.mutation({
-    //   query: (data?: IMedicine) => ({
-    //     url: `/Medicines/create-Medicine`,
-    //     method: 'POST',
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ['Medicine'],
-    // }),
-    // update Medicine
-    updateMedicine: builder.mutation<IMedicine, { id: string; data: FormData }>(
+    // update Product
+    updateProduct: builder.mutation<IProduct, { id: string; data: FormData }>(
       {
         query: ({ id, data }) => ({
-          url: `/medicines/${id}`,
+          url: `/products/${id}`,
           method: 'PATCH',
           body: data,
           formData: true,
         }),
-        invalidatesTags: ['Medicine'],
+        invalidatesTags: ['Product'],
       }
     ),
-    // updateMedicine: builder.mutation({
-    //   query: ({ id, data }: { id: string; data: IMedicine }) => ({
-    //     url: `/Medicines/${id}`,
-    //     method: 'PATCH',
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ['Medicine'],
-    // }),
-    // delete Medicine
-    deleteMedicine: builder.mutation({
+    // delete Product
+    deleteProduct: builder.mutation({
       query: (id: string) => ({
-        url: `/medicines/${id}`,
+        url: `/products/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Medicine'],
+      invalidatesTags: ['Product'],
     }),
   }),
 });
 
 export const {
-  useGetAllMedicineQuery,
-  useGetSingleMedicineQuery,
-  useAddMedicineMutation,
-  useUpdateMedicineMutation,
-  useDeleteMedicineMutation,
+  useGetAllProductQuery,
+  useGetSingleProductQuery,
+  useAddProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productApi;

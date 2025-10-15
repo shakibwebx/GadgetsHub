@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {

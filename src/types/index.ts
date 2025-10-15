@@ -1,4 +1,4 @@
-export type MedicineType =
+export type ProductType =
   | 'Smartwatch'
   | 'Smartphone'
   | 'Laptop'
@@ -6,7 +6,7 @@ export type MedicineType =
   | 'Airbuds'
   | 'Camera'
 
-export type MedicineCategory =
+export type ProductCategory =
   | 'Watch'
   | 'Phone'
   | 'Macbook'
@@ -17,7 +17,7 @@ export type MedicineCategory =
   | 'keyboard'
   | 'monitor';
 
-export interface IMedicine {
+export interface IProduct {
   _id?: string;
   name: string;
   description?: string;
@@ -27,8 +27,8 @@ export interface IMedicine {
   requiredPrescription: boolean;
   manufacturer: string;
   expiryDate: Date;
-  type: MedicineType;
-  categories: MedicineCategory[];
+  type: ProductType;
+  categories: ProductCategory[];
   symptoms?: string[];
   discount: number;
   imageUrl?: string;
@@ -41,7 +41,7 @@ export interface IMedicine {
   updatedAt?: Date;
 }
 
-export interface GetAllMedicinesParams {
+export interface GetAllProductsParams {
   searchTerm?: string;
   tags?: string[];
   symptoms?: string[];
@@ -49,13 +49,19 @@ export interface GetAllMedicinesParams {
   requiredPrescription?: boolean;
   minPrice?: number;
   maxPrice?: number;
-  type?: MedicineType;
-  categories?: MedicineCategory[];
+  type?: ProductType;
+  categories?: ProductCategory[];
   page?: number; // optional now
   limit?: number;
   sortBy?: string | 'createdAt';
   sortOrder?: 'asc' | 'desc';
 }
+
+// Legacy type aliases for backward compatibility
+export type MedicineType = ProductType;
+export type MedicineCategory = ProductCategory;
+export type IMedicine = IProduct;
+export type GetAllMedicinesParams = GetAllProductsParams;
 export interface User {
   _id: string;
   name: string;

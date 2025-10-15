@@ -1,6 +1,6 @@
 'use client';
 
-import { useAddMedicineMutation } from '@/redux/api/productApi';
+import { useAddProductMutation } from '@/redux/api/productApi';
 import { IMedicine, MedicineCategory, MedicineType } from '@/types';
 import React, { useState } from 'react';
 import { Input } from '../ui/input';
@@ -16,12 +16,12 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import Image from 'next/image';
 
 const CreateProductForm = () => {
   const navigate = useRouter();
-  const [addMedicine, { isLoading }] = useAddMedicineMutation();
+  const [addMedicine, { isLoading }] = useAddProductMutation();
   const [formData, setFormData] = useState<IMedicine>({
     name: '',
     description: '',
@@ -133,20 +133,31 @@ const CreateProductForm = () => {
       setSelectedImage(null);
       setPreviewUrl(null);
     } catch (error: unknown) {
-      console.error('Error:', error);
+      console.error('Full Error:', error);
+      console.error('Error type:', typeof error);
 
       let message = 'Unknown error';
 
       if (typeof error === 'object' && error !== null) {
+        console.error('Error object:', JSON.stringify(error, null, 2));
+
         const maybeErr = error as {
-          data?: { errorSources?: { message?: string }[] };
+          data?: {
+            message?: string;
+            errorSources?: { message?: string }[];
+          };
           message?: string;
+          status?: number;
         };
 
         message =
+          maybeErr.data?.message ||
           maybeErr.data?.errorSources?.[0]?.message ||
           maybeErr.message ||
           message;
+
+        console.error('Parsed message:', message);
+        console.error('Status:', maybeErr.status);
       }
 
       toast.error(`Error adding product: ${message}`);

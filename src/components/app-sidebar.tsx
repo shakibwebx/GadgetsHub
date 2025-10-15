@@ -28,7 +28,7 @@ const items = [
   },
   {
     title: 'Manage Gadgets',
-    url: '/admin/medicines',
+    url: '/admin/products',
     icon: Cpu,
   },
   {

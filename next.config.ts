@@ -12,6 +12,7 @@ module.exports = {
       'vineta-html.vercel.app',
       'i.ibb.co.com',
       'via.placeholder.com',
+      'upload.wikimedia.org', // for brand logos
     ],
     remotePatterns: [
       {

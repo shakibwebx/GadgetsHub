@@ -13,11 +13,16 @@ const paymentApi = baseApi.injectEndpoints({
       query: () => '/orders',
     }),
     verifyOrder: builder.query({
-      query: (order_id) => ({
-        url: '/orders/verify',
-        params: { order_id },
-        method: 'GET',
-      }),
+      query: (order_id) => {
+        // Ensure we have a valid order_id
+        const validOrderId = order_id && order_id !== '' ? order_id : null;
+
+        return {
+          url: '/orders/verify-public',
+          params: validOrderId ? { order_id: validOrderId } : {},
+          method: 'GET',
+        };
+      },
     }),
   }),
 });

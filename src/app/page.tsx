@@ -11,9 +11,9 @@ const Home = () => {
   return (
     <DefaultLayout>
       <HeroSlider />
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto">
         <CategorySection />
-      {/* <MediCard /> */}
+      
     
       <Featured />
       <FeaturedBrandsSlider />

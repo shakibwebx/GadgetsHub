@@ -3,7 +3,7 @@ import Image from 'next/image';
 import './featured.css';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@/redux/features/cart/cartSlice';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { IMedicine } from '@/types';
 import Link from 'next/link';
 
@@ -17,16 +17,7 @@ const FeaturedCard = ({ product }: FeaturedCardProps) => {
   const dispatch = useDispatch();
   const handleAddToCart = () => {
     dispatch(addToCart(product));
-    toast.success(`${product.name} added to cart!`, {
-      position: 'top-center',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
+    toast.success(`${product.name} added to cart!`);
   };
 
   // Function to calculate total percentage after discount
@@ -91,14 +82,14 @@ const FeaturedCard = ({ product }: FeaturedCardProps) => {
               <div className="ml-1">
                 {discount ? (
                   <div className="flex flex-row-reverse items-center gap-2">
-                    <del className="text-gray-500">${price}</del>
+                    <del className="text-gray-500">৳{price}</del>
                     <p className="text-[22px] font-bold text-blue-600">
-                      ${result.discountedPrice.toFixed(2)}
+                      ৳{result.discountedPrice.toFixed(2)}
                     </p>
                   </div>
                 ) : (
                   <p className="text-[22px] font-bold text-blue-600">
-                    ${price}
+                    ৳{price}
                   </p>
                 )}
               </div>

@@ -1,4 +1,4 @@
-import { MedicineCategory, MedicineType } from '@/types';
+import { ProductCategory, ProductType } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IFilter {
@@ -8,8 +8,8 @@ export interface IFilter {
   inStock?: boolean | 'all';
   requiredPrescription?: boolean | 'all';
   price: [number, number];
-  type?: MedicineType | '';
-  categories?: MedicineCategory[];
+  type?: ProductType | '';
+  categories?: ProductCategory[];
   sortBy?: string;
   sortOrder?: 'asc' | 'desc' | '';
   page?: number;
@@ -39,7 +39,7 @@ const initialState: IInitialState = {
 };
 
 const productSlice = createSlice({
-  name: 'Medicines',
+  name: 'Products',
   initialState,
   reducers: {
     setSearch: (state, action: PayloadAction<string>) => {
