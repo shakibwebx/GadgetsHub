@@ -41,16 +41,11 @@ export default function AllMedicines() {
   const queryParams = {
     searchTerm: search,
     tags: filters.tags,
-    symptoms: filters.symptoms,
     type: filters.type || undefined,
     categories: filters.categories,
     minPrice: filters.price[0],
     maxPrice: filters.price[1],
     inStock: filters.inStock === 'all' ? undefined : filters.inStock,
-    requiredPrescription:
-      filters.requiredPrescription === 'all'
-        ? undefined
-        : filters.requiredPrescription,
     sortBy: filters.sortBy || undefined,
     sortOrder: filters.sortOrder || undefined,
     page,
@@ -107,9 +102,7 @@ export default function AllMedicines() {
       setFilters({
         searchTerm: '',
         tags: [],
-        symptoms: [],
         inStock: 'all',
-        // requiredPrescription: 'all',
         price: [0, 200000],
         type: '',
         categories: [],
@@ -133,10 +126,8 @@ export default function AllMedicines() {
 
   const activeFiltersCount = [
     !!filters.categories?.length,
-    !!filters.symptoms?.length,
     !!filters.tags?.length,
     filters.inStock !== 'all',
-    // filters.requiredPrescription !== 'all',
     filters.price[0] > 0 || filters.price[1] < 200000,
     !!filters.type,
   ].filter(Boolean).length;
@@ -181,7 +172,7 @@ export default function AllMedicines() {
             <DrawerHeader>
               <DrawerTitle>Filters & Search</DrawerTitle>
               <DrawerDescription>
-                Find the right Medicine for your health
+                Find the perfect gadget for your needs
               </DrawerDescription>
             </DrawerHeader>
             <div className="max-h-[60vh] overflow-y-auto px-4 pb-4">

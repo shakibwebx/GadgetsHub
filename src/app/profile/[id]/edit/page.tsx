@@ -24,6 +24,7 @@ export default function EditProfilePage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function EditProfilePage() {
       formData.append('image', profilePicFile);
     }
 
+    setIsUpdating(true);
     try {
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/${params.id}`,
@@ -96,6 +98,8 @@ export default function EditProfilePage() {
     } catch (err) {
       console.error('Update failed:', err);
       toast.error('Profile Update Failed');
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -262,11 +266,23 @@ export default function EditProfilePage() {
                 variant="outline"
                 onClick={() => router.push('/profile')}
                 className="flex-1"
+                disabled={isUpdating}
               >
                 Cancel
               </Button>
-              <Button type="submit" className="flex-1 bg-[#ff6e18] hover:bg-[#ff6e18]/90">
-                Update Profile
+              <Button
+                type="submit"
+                className="flex-1 bg-[#ff6e18] hover:bg-[#ff6e18]/90"
+                disabled={isUpdating}
+              >
+                {isUpdating ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                    <span>Updating...</span>
+                  </div>
+                ) : (
+                  'Update Profile'
+                )}
               </Button>
             </div>
           </form>

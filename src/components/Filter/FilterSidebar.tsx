@@ -24,9 +24,6 @@ export default function FilterSidebar() {
   const { filters } = useAppSelector((state) => state.Medicines);
 
   const [priceRange, setPriceRange] = useState<[number, number]>(filters.price);
-  const [requiredPrescription, setRequiredPrescription] = useState<
-    boolean | 'all'
-  >(filters.requiredPrescription || 'all');
   const [inStock, setInStock] = useState<boolean | 'all'>(
     filters.inStock || 'all'
   );
@@ -39,9 +36,6 @@ export default function FilterSidebar() {
   const [selectedTags, setSelectedTags] = useState<string[]>(
     filters.tags || []
   );
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>(
-    filters.symptoms || []
-  );
 
   const { data: Medicines, isLoading } = useGetAllProductQuery(undefined, {
     pollingInterval: 30000,
@@ -53,12 +47,10 @@ export default function FilterSidebar() {
   useEffect(() => {
     // sync local and redux state
     setPriceRange(filters.price);
-    setRequiredPrescription(filters.requiredPrescription || 'all');
     setInStock(filters.inStock || 'all');
     setSelectedCategories(filters.categories || []);
     setSelectedType(filters.type || '');
     setSelectedTags(filters.tags || []);
-    setSelectedSymptoms(filters.symptoms || []);
   }, [filters]);
 
   if (isLoading) {
@@ -105,12 +97,6 @@ export default function FilterSidebar() {
     dispatch(setFilters({ type: newType }));
   };
 
-  // prescription filter
-  const handlePrescriptionChange = (value: boolean | 'all') => {
-    setRequiredPrescription(value);
-    dispatch(setFilters({ requiredPrescription: value }));
-  };
-
   // availability filter
   const handleAvailabilityChange = (value: boolean | 'all') => {
     setInStock(value);
@@ -127,18 +113,6 @@ export default function FilterSidebar() {
     }
     setSelectedTags(updatedTags);
     dispatch(setFilters({ tags: updatedTags }));
-  };
-
-  // symptoms filter
-  const handleSymptomChange = (symptom: string) => {
-    let updatedSymptoms;
-    if (selectedSymptoms.includes(symptom)) {
-      updatedSymptoms = selectedSymptoms.filter((s) => s !== symptom);
-    } else {
-      updatedSymptoms = [...selectedSymptoms, symptom];
-    }
-    setSelectedSymptoms(updatedSymptoms);
-    dispatch(setFilters({ symptoms: updatedSymptoms }));
   };
 
   const categories: MedicineCategory[] = [
@@ -162,16 +136,11 @@ export default function FilterSidebar() {
     'Camera',
   ];
 
-  // extract unique tags and symptoms
+  // extract unique tags
   const allTags = MedicinesData.flatMap(
     (med: IMedicine) => med.tags ?? []
   ) as string[];
   const uniqueTags = Array.from(new Set(allTags));
-
-  const allSymptoms = MedicinesData.flatMap(
-    (med: IMedicine) => med.symptoms ?? []
-  ) as string[];
-  const uniqueSymptoms = Array.from(new Set(allSymptoms));
 
   return (
     <div className="mt-4 space-y-4">
@@ -316,55 +285,6 @@ export default function FilterSidebar() {
         </CardContent>
       </Card>
 
-      {/* required prescription Filter */}
-      <Card className="w-full rounded-2xl p-3 shadow-md">
-        <CardContent className="space-y-4">
-          <h3 className="text-xl font-bold">Required Prescription</h3>
-          <Separator />
-          <div className="flex h-full w-full flex-col gap-2">
-            <div className="flex w-full items-center gap-2">
-              <Checkbox
-                id="prescription-all"
-                checked={requiredPrescription === 'all'}
-                onCheckedChange={() => handlePrescriptionChange('all')}
-              />
-              <label
-                htmlFor="prescription-all"
-                className="cursor-pointer text-sm leading-none font-medium"
-              >
-                All
-              </label>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Checkbox
-                id="prescription-required"
-                checked={requiredPrescription === true}
-                onCheckedChange={() => handlePrescriptionChange(true)}
-              />
-              <label
-                htmlFor="prescription-required"
-                className="cursor-pointer text-sm leading-none font-medium"
-              >
-                Required
-              </label>
-            </div>
-            <div className="flex w-full items-center gap-2">
-              <Checkbox
-                id="no-prescription"
-                checked={requiredPrescription === false}
-                onCheckedChange={() => handlePrescriptionChange(false)}
-              />
-              <label
-                htmlFor="no-prescription"
-                className="cursor-pointer text-sm leading-none font-medium"
-              >
-                Not Required
-              </label>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* availability filter */}
       <Card className="w-full rounded-2xl p-3 shadow-md">
         <CardContent className="space-y-4">
@@ -410,29 +330,6 @@ export default function FilterSidebar() {
                 Out of Stock
               </label>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* symptoms filter */}
-      <Card className="w-full rounded-2xl p-3 shadow-md">
-        <CardContent className="space-y-4">
-          <h3 className="text-xl font-bold">Symptoms</h3>
-          <Separator></Separator>
-          <div className="flex h-full w-full flex-col gap-2">
-            {uniqueSymptoms?.map((symptom, i) => (
-              <p
-                key={i}
-                className={`custom-border flex cursor-pointer items-center rounded-full px-3 text-black ${
-                  selectedSymptoms.includes(symptom)
-                    ? 'bg-teal-400 text-white'
-                    : ''
-                }`}
-                onClick={() => handleSymptomChange(symptom)}
-              >
-                {symptom}
-              </p>
-            ))}
           </div>
         </CardContent>
       </Card>
